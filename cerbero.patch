@@ -1,0 +1,1911 @@
+diff --git a/config/cross-lin-arm.cbc b/config/cross-lin-arm.cbc
+index fc5c833..6840384 100644
+--- a/config/cross-lin-arm.cbc
++++ b/config/cross-lin-arm.cbc
+@@ -6,3 +6,6 @@ target_distro = Distro.DEBIAN
+ target_arch = Architecture.ARMv7
+ variants = ['noalsa', 'nox11', 'nopulse', 'nocdparanoia', 'nosdl',
+             'nov4l2', 'notestspackage', 'nopython']
++
++host = 'arm-linux-gnueabihf'
++tools_prefix = '/opt/toolchains/gcc-linaro-arm-linux-gnueabihf-4.9-2014.08_linux/bin/arm-linux-gnueabihf-'
+diff --git a/data/ndk-build/gstreamer-1.0.mk b/data/ndk-build/gstreamer-1.0.mk
+index 64cf8c5..aa3f912 100644
+--- a/data/ndk-build/gstreamer-1.0.mk
++++ b/data/ndk-build/gstreamer-1.0.mk
+@@ -35,9 +35,8 @@ GSTREAMER_ROOT := $(wildcard $(GSTREAMER_ROOT))
+ 
+ # Path for GStreamer static plugins
+ ifndef GSTREAMER_STATIC_PLUGINS_PATH
+-GSTREAMER_STATIC_PLUGINS_PATH := lib/gstreamer-1.0
++GSTREAMER_STATIC_PLUGINS_PATH := $(GSTREAMER_ROOT)/lib/gstreamer-1.0
+ endif
+-GSTREAMER_STATIC_PLUGINS_PATH := $(GSTREAMER_ROOT)/lib/gstreamer-1.0/static
+ 
+ # Path for the NDK integration makefiles
+ ifndef GSTREAMER_NDK_BUILD_PATH
+diff --git a/packages/gstreamer-1.0-capture.package b/packages/gstreamer-1.0-capture.package
+index 03781df..afc2bf4 100644
+--- a/packages/gstreamer-1.0-capture.package
++++ b/packages/gstreamer-1.0-capture.package
+@@ -14,7 +14,7 @@ class Package(custom.GStreamer, package.Package):
+              'gst-plugins-good-1.0:plugins_capture',
+              'gst-plugins-ugly-1.0:plugins_capture',
+              'gst-plugins-bad-1.0:plugins_capture']
+-    files_devel = ['gst-plugins-base-1.0-static:plugins_capture_devel',
+-                   'gst-plugins-good-1.0-static:plugins_capture_devel',
+-                   'gst-plugins-ugly-1.0-static:plugins_capture_devel',
+-                   'gst-plugins-bad-1.0-static:plugins_capture_devel']
++    files_devel = ['gst-plugins-base-1.0:plugins_capture_devel',
++                   'gst-plugins-good-1.0:plugins_capture_devel',
++                   'gst-plugins-ugly-1.0:plugins_capture_devel',
++                   'gst-plugins-bad-1.0:plugins_capture_devel']
+diff --git a/packages/gstreamer-1.0-codecs-gpl.package b/packages/gstreamer-1.0-codecs-gpl.package
+index 039264f..17bf551 100644
+--- a/packages/gstreamer-1.0-codecs-gpl.package
++++ b/packages/gstreamer-1.0-codecs-gpl.package
+@@ -15,7 +15,7 @@ class Package(custom.GStreamer, package.Package):
+              'gst-plugins-good-1.0:plugins_codecs_gpl',
+              'gst-plugins-bad-1.0:plugins_codecs_gpl',
+              'gst-plugins-ugly-1.0:plugins_codecs_gpl']
+-    files_devel = ['gst-plugins-base-1.0-static:plugins_codecs_gpl_devel',
+-             'gst-plugins-good-1.0-static:plugins_codecs_gpl_devel',
+-             'gst-plugins-bad-1.0-static:plugins_codecs_gpl_devel',
+-             'gst-plugins-ugly-1.0-static:plugins_codecs_gpl_devel']
++    files_devel = ['gst-plugins-base-1.0:plugins_codecs_gpl_devel',
++             'gst-plugins-good-1.0:plugins_codecs_gpl_devel',
++             'gst-plugins-bad-1.0:plugins_codecs_gpl_devel',
++             'gst-plugins-ugly-1.0:plugins_codecs_gpl_devel']
+diff --git a/packages/gstreamer-1.0-codecs-restricted.package b/packages/gstreamer-1.0-codecs-restricted.package
+index 1ad0f59..7e71532 100644
+--- a/packages/gstreamer-1.0-codecs-restricted.package
++++ b/packages/gstreamer-1.0-codecs-restricted.package
+@@ -14,6 +14,6 @@ class Package(custom.GStreamer, package.Package):
+              'faad2:libs', 'libdca:libs', 'vo-aacenc:libs', 'x264:libs', 'lame:libs',
+              'gst-plugins-ugly-1.0:plugins_codecs_restricted',
+              'gst-plugins-bad-1.0:plugins_codecs_restricted']
+-    files_devel = ['gst-plugins-ugly-1.0-static:plugins_codecs_restricted_devel',
+-                   'gst-plugins-bad-1.0-static:plugins_codecs_restricted_devel']
++    files_devel = ['gst-plugins-ugly-1.0:plugins_codecs_restricted_devel',
++                   'gst-plugins-bad-1.0:plugins_codecs_restricted_devel']
+ 
+diff --git a/packages/gstreamer-1.0-codecs.package b/packages/gstreamer-1.0-codecs.package
+index 530eb29..620fd73 100644
+--- a/packages/gstreamer-1.0-codecs.package
++++ b/packages/gstreamer-1.0-codecs.package
+@@ -19,11 +19,11 @@ class Package(custom.GStreamer, package.Package):
+             'gst-plugins-base-1.0:plugins_codecs', 'gst-plugins-good-1.0:plugins_codecs',
+             'gst-plugins-bad-1.0:plugins_codecs', 'gst-plugins-ugly-1.0:plugins_codecs',
+             ]
+-    files_devel = ['gst-plugins-base-1.0-static:plugins_codecs_devel',
+-            'gst-plugins-good-1.0-static:plugins_codecs_devel',
+-            'gst-plugins-bad-1.0-static:plugins_codecs_devel',
+-            'gst-plugins-ugly-1.0-static:plugins_codecs_devel',
+-            'gst-plugins-bad-1.0-static:codecs_devel']
++    files_devel = ['gst-plugins-base-1.0:plugins_codecs_devel',
++            'gst-plugins-good-1.0:plugins_codecs_devel',
++            'gst-plugins-bad-1.0:plugins_codecs_devel',
++            'gst-plugins-ugly-1.0:plugins_codecs_devel',
++            'gst-plugins-bad-1.0:codecs_devel']
+     platform_files = {
+             Platform.ANDROID: ['tremor:libs'],
+             Platform.IOS: ['tremor:libs']
+diff --git a/packages/gstreamer-1.0-core.package b/packages/gstreamer-1.0-core.package
+index ad4edea..ca7c37b 100644
+--- a/packages/gstreamer-1.0-core.package
++++ b/packages/gstreamer-1.0-core.package
+@@ -15,8 +15,8 @@ class Package(custom.GStreamer, package.Package):
+             'gst-plugins-good-1.0:plugins_core:lang',
+             'gst-plugins-bad-1.0:plugins_core:lang:libs:typelibs',
+             'gst-plugins-ugly-1.0:plugins_core:lang']
+-    files_devel = ['gstreamer-1.0-static', 'gst-plugins-base-1.0-static:plugins_core_devel',
+-            'gst-plugins-good-1.0-static:plugins_core_devel', 'gst-plugins-bad-1.0-static:plugins_core_devel']
++    files_devel = ['gstreamer-1.0', 'gst-plugins-base-1.0:plugins_core_devel',
++            'gst-plugins-good-1.0:plugins_core_devel', 'gst-plugins-bad-1.0:plugins_core_devel']
+     platform_files = {
+             Platform.DARWIN: ['gstreamer-1.0-osx-framework'],
+             Platform.IOS: ['gstreamer-ios-templates'],
+diff --git a/packages/gstreamer-1.0-dvd.package b/packages/gstreamer-1.0-dvd.package
+index f8e72cf..4e2c109 100644
+--- a/packages/gstreamer-1.0-dvd.package
++++ b/packages/gstreamer-1.0-dvd.package
+@@ -15,7 +15,7 @@ class Package(custom.GStreamer, package.Package):
+             'gst-plugins-good-1.0:plugins_dvd',
+             'gst-plugins-ugly-1.0:plugins_dvd',
+             'gst-plugins-bad-1.0:plugins_dvd']
+-    files_devel = ['gst-plugins-base-1.0-static:plugins_dvd_devel'
+-            'gst-plugins-good-1.0-static:plugins_dvd_devel',
+-            'gst-plugins-ugly-1.0-static:plugins_dvd_devel',
+-            'gst-plugins-bad-1.0-static:plugins_dvd_devel']
++    files_devel = ['gst-plugins-base-1.0:plugins_dvd_devel'
++            'gst-plugins-good-1.0:plugins_dvd_devel',
++            'gst-plugins-ugly-1.0:plugins_dvd_devel',
++            'gst-plugins-bad-1.0:plugins_dvd_devel']
+diff --git a/packages/gstreamer-1.0-editing.package b/packages/gstreamer-1.0-editing.package
+index 296740b..1743723 100644
+--- a/packages/gstreamer-1.0-editing.package
++++ b/packages/gstreamer-1.0-editing.package
+@@ -10,5 +10,5 @@ class Package(custom.GStreamer, package.Package):
+     deps = ['gstreamer-1.0-core', 'gstreamer-1.0-devtools']
+ 
+     files = ['gst-editing-services-1.0:bins:libs:typelibs:plugins_ges']
+-    files_devel = ['gst-editing-services-1.0-static:plugins_ges_devel',
++    files_devel = ['gst-editing-services-1.0:plugins_ges_devel',
+                    'gst-editing-services-1.0:devel']
+diff --git a/packages/gstreamer-1.0-effects.package b/packages/gstreamer-1.0-effects.package
+index 9236278..79c72b9 100644
+--- a/packages/gstreamer-1.0-effects.package
++++ b/packages/gstreamer-1.0-effects.package
+@@ -17,10 +17,10 @@ class Package(custom.GStreamer, package.Package):
+              'gst-plugins-ugly-1.0:plugins_effects',
+              'gst-plugins-bad-1.0:plugins_effects']
+     files_devel = [
+-            'gst-plugins-base-1.0-static:plugins_effects_devel',
+-            'gst-plugins-good-1.0-static:plugins_effects_devel',
+-            'gst-plugins-ugly-1.0-static:plugins_effects_devel',
+-            'gst-plugins-bad-1.0-static:plugins_effects_devel']
++            'gst-plugins-base-1.0:plugins_effects_devel',
++            'gst-plugins-good-1.0:plugins_effects_devel',
++            'gst-plugins-ugly-1.0:plugins_effects_devel',
++            'gst-plugins-bad-1.0:plugins_effects_devel']
+ 
+ 	def prepare(self):
+ 		if self.config.platform == Platform.WINDOWS:
+diff --git a/packages/gstreamer-1.0-encoding.package b/packages/gstreamer-1.0-encoding.package
+index 7e7b155..a463ba7 100644
+--- a/packages/gstreamer-1.0-encoding.package
++++ b/packages/gstreamer-1.0-encoding.package
+@@ -14,8 +14,8 @@ class Package(custom.GStreamer, package.Package):
+              'gst-plugins-good-1.0:plugins_encoding',
+              'gst-plugins-ugly-1.0:plugins_encoding',
+              'gst-plugins-bad-1.0:plugins_encoding']
+-    files_devel = ['gst-plugins-base-1.0-static:plugins_encoding_devel',
+-                   'gst-plugins-good-1.0-static:plugins_encoding_devel',
+-                   'gst-plugins-ugly-1.0-static:plugins_encoding_devel',
+-                   'gst-plugins-bad-1.0-static:plugins_encoding_devel']
++    files_devel = ['gst-plugins-base-1.0:plugins_encoding_devel',
++                   'gst-plugins-good-1.0:plugins_encoding_devel',
++                   'gst-plugins-ugly-1.0:plugins_encoding_devel',
++                   'gst-plugins-bad-1.0:plugins_encoding_devel']
+ 
+diff --git a/packages/gstreamer-1.0-libav.package b/packages/gstreamer-1.0-libav.package
+index a58e999..23bffab 100644
+--- a/packages/gstreamer-1.0-libav.package
++++ b/packages/gstreamer-1.0-libav.package
+@@ -11,4 +11,4 @@ class Package(custom.GStreamer, package.Package):
+     deps = ['gstreamer-1.0-core']
+ 
+     files = ['gst-libav-1.0:plugins_codecs_restricted']
+-    files_devel = ['gst-libav-1.0-static:plugins_codecs_restricted_devel']
++    files_devel = ['gst-libav-1.0:plugins_codecs_restricted_devel']
+diff --git a/packages/gstreamer-1.0-net-restricted.package b/packages/gstreamer-1.0-net-restricted.package
+index 56a4c34..1390dd4 100644
+--- a/packages/gstreamer-1.0-net-restricted.package
++++ b/packages/gstreamer-1.0-net-restricted.package
+@@ -14,6 +14,6 @@ class Package(custom.GStreamer, package.Package):
+     files = ['libmms:libs', 'librtmp:libs',
+              'gst-plugins-ugly-1.0:plugins_net_restricted',
+              'gst-plugins-bad-1.0:plugins_net_restricted']
+-    files_devel = ['gst-plugins-ugly-1.0-static:plugins_net_restricted_devel',
+-            'gst-plugins-bad-1.0-static:plugins_net_restricted_devel']
++    files_devel = ['gst-plugins-ugly-1.0:plugins_net_restricted_devel',
++            'gst-plugins-bad-1.0:plugins_net_restricted_devel']
+ 
+diff --git a/packages/gstreamer-1.0-net.package b/packages/gstreamer-1.0-net.package
+index f3c3237..04c5f76 100644
+--- a/packages/gstreamer-1.0-net.package
++++ b/packages/gstreamer-1.0-net.package
+@@ -14,12 +14,12 @@ class Package(custom.GStreamer, package.Package):
+             'gst-plugins-base-1.0:plugins_net', 'gst-plugins-good-1.0:plugins_net',
+             'gst-plugins-ugly-1.0:plugins_net', 'gst-plugins-bad-1.0:plugins_net',
+             'gst-rtsp-server-1.0:libs:typelibs:plugins_net']
+-    files_devel = ['libnice-static:plugins_net_devel',
+-            'gst-plugins-base-1.0-static:plugins_net_devel',
+-            'gst-plugins-good-1.0-static:plugins_net_devel',
+-            'gst-plugins-ugly-1.0-static:plugins_net_devel',
+-            'gst-plugins-bad-1.0-static:plugins_net_devel',
+-            'gst-rtsp-server-1.0-static:plugins_net_devel']
++    files_devel = ['libnice:plugins_net_devel',
++            'gst-plugins-base-1.0:plugins_net_devel',
++            'gst-plugins-good-1.0:plugins_net_devel',
++            'gst-plugins-ugly-1.0:plugins_net_devel',
++            'gst-plugins-bad-1.0:plugins_net_devel',
++            'gst-rtsp-server-1.0:plugins_net_devel']
+ 
+     def prepare(self):
+         if self.config.target_platform != Platform.LINUX or \
+diff --git a/packages/gstreamer-1.0-playback.package b/packages/gstreamer-1.0-playback.package
+index 51298f3..64aaacc 100644
+--- a/packages/gstreamer-1.0-playback.package
++++ b/packages/gstreamer-1.0-playback.package
+@@ -14,7 +14,7 @@ class Package(custom.GStreamer, package.Package):
+              'gst-plugins-good-1.0:plugins_playback',
+              'gst-plugins-ugly-1.0:plugins_playback',
+              'gst-plugins-bad-1.0:plugins_playback']
+-    files_devel = ['gst-plugins-base-1.0-static:plugins_playback_devel',
+-                   'gst-plugins-good-1.0-static:plugins_playback_devel',
+-                   'gst-plugins-ugly-1.0-static:plugins_playback_devel',
+-                   'gst-plugins-bad-1.0-static:plugins_playback_devel']
++    files_devel = ['gst-plugins-base-1.0:plugins_playback_devel',
++                   'gst-plugins-good-1.0:plugins_playback_devel',
++                   'gst-plugins-ugly-1.0:plugins_playback_devel',
++                   'gst-plugins-bad-1.0:plugins_playback_devel']
+diff --git a/packages/gstreamer-1.0-system.package b/packages/gstreamer-1.0-system.package
+index 487901e..27f06a4 100644
+--- a/packages/gstreamer-1.0-system.package
++++ b/packages/gstreamer-1.0-system.package
+@@ -13,10 +13,10 @@ class Package(custom.GStreamer, package.Package):
+     files = ['gst-plugins-base-1.0:plugins_sys', 'gst-plugins-good-1.0:plugins_sys',
+             'gst-plugins-ugly-1.0:plugins_sys', 'gst-plugins-bad-1.0:plugins_sys',
+             'graphene:libs']
+-    files_devel = ['gst-plugins-base-1.0-static:plugins_sys_devel',
+-            'gst-plugins-good-1.0-static:plugins_sys_devel',
+-            'gst-plugins-ugly-1.0-static:plugins_sys_devel',
+-            'gst-plugins-bad-1.0-static:plugins_sys_devel']
++    files_devel = ['gst-plugins-base-1.0:plugins_sys_devel',
++            'gst-plugins-good-1.0:plugins_sys_devel',
++            'gst-plugins-ugly-1.0:plugins_sys_devel',
++            'gst-plugins-bad-1.0:plugins_sys_devel']
+ 
+     def prepare(self):
+         if self.config.variants.cdparanoia:
+diff --git a/packages/gstreamer-1.0-visualizers.package b/packages/gstreamer-1.0-visualizers.package
+index 5f0a609..852fdda 100644
+--- a/packages/gstreamer-1.0-visualizers.package
++++ b/packages/gstreamer-1.0-visualizers.package
+@@ -12,7 +12,7 @@ class Package(custom.GStreamer, package.Package):
+ 
+     files = ['libvisual', 'gst-plugins-base-1.0:plugins_vis', 'gst-plugins-good-1.0:plugins_vis',
+              'gst-plugins-ugly-1.0:plugins_vis', 'gst-plugins-bad-1.0:plugins_vis']
+-    files_devel = ['gst-plugins-base-1.0-static:plugins_vis_devel',
+-            'gst-plugins-good-1.0-static:plugins_vis_devel',
+-            'gst-plugins-ugly-1.0-static:plugins_vis_devel',
+-            'gst-plugins-bad-1.0-static:plugins_vis_devel']
++    files_devel = ['gst-plugins-base-1.0:plugins_vis_devel',
++            'gst-plugins-good-1.0:plugins_vis_devel',
++            'gst-plugins-ugly-1.0:plugins_vis_devel',
++            'gst-plugins-bad-1.0:plugins_vis_devel']
+diff --git a/recipes/custom.py b/recipes/custom.py
+index 7a6dade..0fecf64 100644
+--- a/recipes/custom.py
++++ b/recipes/custom.py
+@@ -10,126 +10,11 @@ from cerbero.config import Platform
+ from cerbero.enums import License
+ from cerbero.utils import shell, to_unixpath
+ 
+-class GStreamerBase:
+-
++class GStreamer(recipe.Recipe):
+     licenses = [License.LGPLv2Plus]
+     version = '1.12.0'
+     commit = '1.12.0'
+ 
+-class GStreamer(GStreamerBase, recipe.Recipe):
+-
+-    pass
+-
+-class GStreamerStatic(GStreamerBase, recipe.Recipe):
+-
+-    gstreamer_version = '1.0'
+-    configure_options = "--enable-introspection=no --disable-examples --enable-static-plugins --disable-shared --enable-static "
+-    extra_configure_options = ''
+-    # Static build will always fail on make check
+-    make_check = None
+-
+-    def prepare(self):
+-        self.project_name = self.name.replace('-static', '')
+-        if self.stype in (SourceType.GIT, SourceType.GIT_TARBALL):
+-            self.config_sh = 'sh ./autogen.sh --noconfigure && ./configure'
+-            self.repo_dir = os.path.join(self.config.local_sources,
+-                                         self.project_name)
+-        elif self.stype == SourceType.TARBALL:
+-            # Ensure that the correct unpacked directory is used 
+-            # as the build directory
+-            self.build_dir = os.path.join(os.path.dirname(self.build_dir),
+-                                          '{0}-{1}'.format(self.project_name,
+-                                                           self.version))
+-        else:
+-            raise Exception("Static recipes only work with GIT, GIT_TARBALL, and TARBALL SourceTypes")
+-
+-        if self.config.target_platform != Platform.LINUX:
+-            self.configure_options += ' --disable-gtk-doc'
+-        self.configure_options += ' ' + self.extra_configure_options
+-
+-        self.tmp_destdir = os.path.join(self.build_dir, 'static-build')
+-        self.make_install = 'make install DESTDIR=%s' % self.tmp_destdir
+-
+-        # Fill the list of files with the static library and the libtool link
+-        # library, libgstplugin.a and libgstplugin.la
+-        self.plugins_categories = [x for x in dir(self) if
+-                x.startswith('files_plugins')]
+-        self.platform_plugins_categories = [x for x in dir(self) if
+-                x.startswith('platform_files_plugins')]
+-        self._files_list = []
+-        plugin_path = 'lib/gstreamer-%s/static' % self.gstreamer_version
+-        for name in self.plugins_categories:
+-            files = getattr(self, name)
+-            f = ['%s/%s.a' % (plugin_path, x) for x in files]
+-            f.extend(['%s/%s.la' % (plugin_path, x) for x in files])
+-            setattr(self, name, f)
+-            self._files_list.extend(f)
+-        for name in self.platform_plugins_categories:
+-            platform_files = getattr(self, name)
+-            files = platform_files.get(self.config.target_platform, [])
+-            f = ['%s/%s.a' % (plugin_path, x) for x in files]
+-            f.extend(['%s/%s.la' % (plugin_path, x) for x in files])
+-            platform_files[self.config.target_platform] = f
+-            self._files_list.extend(f)
+-        self.append_env ['CFLAGS'] = "%s %s" % (self.append_env.get('CFLAGS',
+-            ''), '-fPIC -DPIC')
+-        self.append_env ['CXXFLAGS'] = "%s %s" % (self.append_env.get('CXXFLAGS',
+-            ''), '-fPIC -DPIC')
+-
+-    def configure(self):
+-        if not os.path.exists(self.tmp_destdir):
+-            os.makedirs(self.tmp_destdir)
+-        self.btype.configure(self)
+-
+-    def post_install(self):
+-        if not self._files_list:
+-            return
+-        plugins_dir = os.path.dirname(os.path.join(self.config.prefix,
+-                                                   self._files_list[0]))
+-        if not os.path.exists(plugins_dir):
+-            os.makedirs(plugins_dir)
+-        # Copy all files installed in the temporary build-static directory
+-        # to the prefix. Static plugins will be installed in
+-        # lib/gstreamer-1.0/static to avoid conflicts with the libgstplugin.la
+-        # generated with the shared build
+-        for f in self._files_list:
+-            src = os.path.join(self.tmp_destdir,
+-                    to_unixpath(self.config.prefix)[1:],
+-                    f.replace('/static/', '/'))
+-            dest = os.path.join(self.config.prefix, f)
+-            if f.endswith('.la'):
+-                shell.call('sed -i "s#^libdir=\'\(.*\)\'#libdir=\'\\1/static\'#" %s' % src)
+-            shutil.copyfile(src, dest)
+-
+-
+-def list_gstreamer_plugins_by_category(config):
+-        cookbook = CookBook(config)
+-        # For plugins named differently
+-        replacements = {'decodebin2': 'uridecodebin', 'playbin': 'playback',
+-                        'encodebin': 'encoding', 'souphttpsrc': 'soup',
+-                        'siren': 'gstsiren', 'sdpelem': 'sdp',
+-                        'rtpmanager': 'gstrtpmanager', 'scaletempoplugin' : 'scaletempo',
+-                        'mpegdemux': 'mpegdemux2', 'rmdemux': 'realmedia'}
+-        plugins = defaultdict(list)
+-        for r in ['gstreamer', 'gst-plugins-base', 'gst-plugins-good',
+-                  'gst-plugins-bad', 'gst-plugins-ugly', 'gst-ffmpeg', 'gst-rtsp-server']:
+-            r = cookbook.get_recipe(r)
+-            for attr_name in dir(r):
+-                if attr_name.startswith('files_plugins_'):
+-                    cat_name = attr_name[len('files_plugins_'):]
+-                    plugins_list = getattr(r, attr_name)
+-                elif attr_name.startswith('platform_files_plugins_'):
+-                    cat_name = attr_name[len('platform_files_plugins_'):]
+-                    plugins_dict = getattr(r, attr_name)
+-                    plugins_list = plugins_dict.get(config.target_platform, [])
+-                else:
+-                    continue
+-                for e in plugins_list:
+-                    if not e.startswith('lib/gstreamer-'):
+-                        continue
+-                    plugins[cat_name].append(e[25:-8])
+-        return plugins, replacements
+-
+ def list_gstreamer_1_0_plugins_by_category(config):
+         cookbook = CookBook(config)
+         plugins = defaultdict(list)
+diff --git a/recipes/gst-editing-services-1.0-static.recipe b/recipes/gst-editing-services-1.0-static.recipe
+deleted file mode 100644
+index 3de965b..0000000
+--- a/recipes/gst-editing-services-1.0-static.recipe
++++ /dev/null
+@@ -1,21 +0,0 @@
+-# -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
+-from cerbero.utils import shell
+-
+-
+-class Recipe(custom.GStreamerStatic):
+-    name = 'gst-editing-services-1.0-static'
+-    extra_configure_options = "--enable-static"
+-    remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gst-editing-services'}
+-    config_sh = 'sh ./autogen.sh --noconfigure && ./configure'
+-    deps = ['gstreamer-1.0', 'gst-plugins-base-1.0', 'gst-plugins-good-1.0', 'gst-validate']
+-
+-    files_plugins_ges_devel = ['libgstnle']
+-
+-    def prepare(self):
+-        self.append_env['CFLAGS'] = " -Wno-error "
+-        self.append_env['CXXFLAGS'] = " -Wno-error "
+-        self.append_env['CPPFLAGS'] = " -Wno-error "
+-        if self.config.target_platform != Platform.LINUX:
+-            self.configure_options += ' --disable-gtk-doc --disable-docbook'
+-
+-        custom.GStreamerStatic.prepare(self)
+diff --git a/recipes/gst-editing-services-1.0.recipe b/recipes/gst-editing-services-1.0.recipe
+index 68cf8a8..ee76908 100644
+--- a/recipes/gst-editing-services-1.0.recipe
++++ b/recipes/gst-editing-services-1.0.recipe
+@@ -15,6 +15,7 @@ class Recipe(custom.GStreamer):
+     files_typelibs = ['GES-1.0']
+ 
+     files_plugins_ges = [ 'lib/gstreamer-1.0/libgstnle%(mext)s' ]
++    files_plugins_ges_devel = ['lib/gstreamer-1.0/libgstnle.a', 'lib/gstreamer-1.0/libgstnle.la']
+ 
+ #    files_python = ['site-packages/ges%(pext)s']
+ 
+diff --git a/recipes/gst-libav-1.0-static.recipe b/recipes/gst-libav-1.0-static.recipe
+deleted file mode 100644
+index 8a136a2..0000000
+--- a/recipes/gst-libav-1.0-static.recipe
++++ /dev/null
+@@ -1,113 +0,0 @@
+-# -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
+-
+-import shutil
+-
+-from cerbero.utils import shell
+-from cerbero.tools.libtool import LibtoolLibrary
+-
+-class Recipe(custom.GStreamerStatic):
+-    name = 'gst-libav-1.0-static'
+-    # TODO - check license - plugin is certainly LGPLv2+, but need to check
+-    #        the linked libs
+-    licenses = [License.LGPLv2Plus]
+-    extra_configure_options = "--enable-static --enable-lgpl --disable-example"
+-    remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gst-libav'}
+-    deps = ['gstreamer-1.0', 'gst-plugins-base-1.0', 'bzip2', 'zlib' ]
+-
+-    files_plugins_codecs_restricted_devel = ['libgstlibav']
+-
+-    def prepare(self):
+-        self.append_env['CFLAGS'] = " -Wno-error "
+-        self.append_env['CXXFLAGS'] = " -Wno-error "
+-        self.append_env['CPPFLAGS'] = " -Wno-error "
+-
+-        if self.config.target_platform != Platform.LINUX:
+-            self.configure_options += ' --disable-gtk-doc'
+-
+-        # Default AS is $CC, except iOS (set below)
+-        if Architecture.is_arm(self.config.target_arch):
+-            self.new_env = {'AS': os.environ.get('CC', '')}
+-
+-        if self.config.target_platform == Platform.DARWIN:
+-            if self.config.target_arch == Architecture.X86_64:
+-                asflags = ' -arch x86_64 -m64'
+-            elif self.config.target_arch == Architecture.X86:
+-                asflags = ' -arch i386 -m32'
+-            self.configure_options += ' ASFLAGS="%s"' % asflags
+-        elif self.config.target_platform == Platform.ANDROID:
+-            if self.config.target_arch == Architecture.X86:
+-              # libav internally aligns stacks, while Android doesn't
+-              self.configure_options += ' --with-libav-extra-configure="--extra-cflags=\'-mincoming-stack-boundary=4\'"'
+-        elif self.config.target_platform == Platform.IOS:
+-            if Architecture.is_arm(self.config.target_arch):
+-                if 'GAS' in os.environ:
+-                    self.new_env = {'AS': os.environ['GAS']}
+-        if self.config.variants.nodebug:
+-            self.append_env['CFLAGS'] += ' -DGST_LEVEL_MAX=GST_LEVEL_FIXME'
+-
+-        super(Recipe, self).prepare()
+-        for f in ['libavcodec', 'libavformat', 'libavutil', 'libswscale', 'libswresample', 'libavfilter']:
+-            for ext in ['.a', '.la']:
+-                path = os.path.join('lib', f + ext)
+-                self.files_plugins_codecs_restricted_devel.append(path)
+-
+-    def configure(self):
+-        super(recipe.Recipe, self).configure()
+-
+-        libav_path = os.path.join(self.build_dir, 'gst-libs', 'ext', 'libav')
+-        if self.config.target_platform == Platform.WINDOWS:
+-            replacements = {'RANLIB=ranlib': 'RANLIB=%s' % os.environ['RANLIB'],
+-                            'RANLIB=%s-ranlib' % self.config.host: 'RANLIB=%s' % os.environ['RANLIB']}
+-            shell.replace(os.path.join(libav_path, 'config.mak'), replacements)
+-        elif self.config.target_platform in [Platform.DARWIN, Platform.IOS]:
+-            if self.config.target_arch == Architecture.X86:
+-                replacements = {'HAVE_EBX_AVAILABLE=yes': 'HAVE_EBX_AVAILABLE=no',
+-                                'HAVE_EBX_AVAILABLE 1': 'HAVE_EBX_AVAILABLE 0',}
+-                shell.replace(os.path.join(libav_path, 'config.mak'), replacements)
+-                shell.replace(os.path.join(libav_path, 'config.h'), replacements)
+-            if self.config.target_platform == Platform.IOS:
+-                replacements = {'RANLIB=ranlib': 'RANLIB=%s' % os.environ['RANLIB'],
+-                                'RANLIB=%s-ranlib' % self.config.host: 'RANLIB=%s' % os.environ['RANLIB']}    
+-                shell.replace(os.path.join(libav_path, 'config.mak'), replacements)
+-        # log2 and log2f are not provided by bionic, but they are not checked
+-        # properly
+-        elif self.config.target_platform == Platform.ANDROID:
+-                replacements = {'HAVE_LOG2 1': 'HAVE_LOG2 0',
+-                                'HAVE_LOG2F 1': 'HAVE_LOG2F 0',}
+-                shell.replace(os.path.join(libav_path, 'config.h'), replacements)
+-
+-    def post_install(self):
+-        for n in ['avutil', 'swresample', 'avcodec', 'avformat', 'swscale', 'avfilter']:
+-            name = 'lib%s' % n
+-            lib = '%s.a' % name
+-            path = os.path.join(self.build_dir, 'gst-libs', 'ext', 'libav',
+-                    name, lib)
+-            shutil.copy(path, self.config.libdir)
+-            deps = ['z', 'bz2']
+-            if n == 'avcodec':
+-                deps += ['avutil', 'swresample']
+-            if n == 'avformat':
+-                deps += ['avutil', 'avcodec', 'swresample']
+-            if n == 'swscale':
+-                deps += ['avutil']
+-            if n == 'swresample':
+-                deps += ['avutil']
+-            if n == 'avfilter':
+-                deps += ['avutil', 'avcodec', 'avformat']
+-            libtool_la = LibtoolLibrary(n, None, None, None, self.config.libdir,
+-                self.config.target_platform, deps)
+-            libtool_la.change_value ('dlname', '')
+-            libtool_la.change_value ('library_names', '')
+-            libtool_la.save()
+-        super(Recipe, self).post_install()
+-        gstlibavlib = os.path.join(self.config.prefix, 'lib', 'gstreamer-1.0',
+-                'static', 'libgstlibav.la')
+-        shell.replace (gstlibavlib,
+-                {'-lavformat': os.path.join(self.config.libdir, 'libavformat.la'),
+-                '-lavcodec': os.path.join(self.config.libdir, 'libavcodec.la'),
+-                '-lavutil': os.path.join(self.config.libdir, 'libavutil.la'),
+-                '-lswscale': os.path.join(self.config.libdir, 'libswscale.la'),
+-                '-lswresample': os.path.join(self.config.libdir, 'libswresample.la'),
+-                '-lavfilter': os.path.join(self.config.libdir, 'libavfilter.la'),
+-                })
+-
+diff --git a/recipes/gst-libav-1.0.recipe b/recipes/gst-libav-1.0.recipe
+index a4b9da2..899a107 100644
+--- a/recipes/gst-libav-1.0.recipe
++++ b/recipes/gst-libav-1.0.recipe
+@@ -1,5 +1,8 @@
+ # -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
++import shutil
++
+ from cerbero.utils import shell
++from cerbero.tools.libtool import LibtoolLibrary
+ 
+ class Recipe(custom.GStreamer):
+     name = 'gst-libav-1.0'
+@@ -7,11 +10,14 @@ class Recipe(custom.GStreamer):
+     #        the linked libs
+     licenses = [License.LGPLv2Plus]
+     config_sh = 'sh ./autogen.sh --noconfigure && ./configure'
+-    configure_options = "--enable-lgpl --disable-examples "
++    configure_options = "--enable-lgpl --disable-examples --enable-static "
+     remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gst-libav'}
+     deps = ['gstreamer-1.0', 'gst-plugins-base-1.0', 'bzip2', 'zlib' ]
+ 
+     files_plugins_codecs_restricted = ['lib/gstreamer-1.0/libgstlibav%(mext)s']
++    files_plugins_codecs_restricted_devel = [
++        'lib/gstreamer-1.0/libgstlibav.a', 'lib/gstreamer-1.0/libgstlibav.la'
++    ]
+ 
+     def prepare(self):
+         self.append_env['CFLAGS'] = " -Wno-error "
+@@ -42,6 +48,13 @@ class Recipe(custom.GStreamer):
+         if self.config.variants.nodebug:
+             self.append_env['CFLAGS'] += ' -DGST_LEVEL_MAX=GST_LEVEL_FIXME'
+ 
++        super(Recipe, self).prepare()
++        for f in ['libavcodec', 'libavformat', 'libavutil', 'libswscale', 'libswresample', 'libavfilter']:
++            for ext in ['.a', '.la']:
++                path = os.path.join('lib', f + ext)
++                self.files_plugins_codecs_restricted_devel.append(path)
++
++
+     def configure(self):
+         super(recipe.Recipe, self).configure()
+ 
+@@ -66,3 +79,39 @@ class Recipe(custom.GStreamer):
+                 replacements = {'HAVE_LOG2 1': 'HAVE_LOG2 0',
+                                 'HAVE_LOG2F 1': 'HAVE_LOG2F 0',}
+                 shell.replace(os.path.join(libav_path, 'config.h'), replacements)
++
++    def post_install(self):
++        for n in ['avutil', 'swresample', 'avcodec', 'avformat', 'swscale', 'avfilter']:
++            name = 'lib%s' % n
++            lib = '%s.a' % name
++            path = os.path.join(self.build_dir, 'gst-libs', 'ext', 'libav',
++                    name, lib)
++            shutil.copy(path, self.config.libdir)
++            deps = ['z', 'bz2']
++            if n == 'avcodec':
++                deps += ['avutil', 'swresample']
++            if n == 'avformat':
++                deps += ['avutil', 'avcodec', 'swresample']
++            if n == 'swscale':
++                deps += ['avutil']
++            if n == 'swresample':
++                deps += ['avutil']
++            if n == 'avfilter':
++                deps += ['avutil', 'avcodec', 'avformat']
++            libtool_la = LibtoolLibrary(n, None, None, None, self.config.libdir,
++                self.config.target_platform, deps)
++            libtool_la.change_value ('dlname', '')
++            libtool_la.change_value ('library_names', '')
++            libtool_la.save()
++        super(Recipe, self).post_install()
++        gstlibavlib = os.path.join(self.config.prefix, 'lib', 'gstreamer-1.0',
++                'libgstlibav.la')
++        shell.replace (gstlibavlib,
++                {'-lavformat': os.path.join(self.config.libdir, 'libavformat.la'),
++                '-lavcodec': os.path.join(self.config.libdir, 'libavcodec.la'),
++                '-lavutil': os.path.join(self.config.libdir, 'libavutil.la'),
++                '-lswscale': os.path.join(self.config.libdir, 'libswscale.la'),
++                '-lswresample': os.path.join(self.config.libdir, 'libswresample.la'),
++                '-lavfilter': os.path.join(self.config.libdir, 'libavfilter.la'),
++                })
++
+diff --git a/recipes/gst-plugins-bad-1.0-static.recipe b/recipes/gst-plugins-bad-1.0-static.recipe
+deleted file mode 100644
+index 51fddef..0000000
+--- a/recipes/gst-plugins-bad-1.0-static.recipe
++++ /dev/null
+@@ -1,202 +0,0 @@
+-# -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
+-
+-
+-class Recipe(custom.GStreamerStatic):
+-    name = 'gst-plugins-bad-1.0-static'
+-    extra_configure_options = '--disable-gsm --disable-festival \
+-        --disable-videomaxrate --disable-bz2 --disable-libde265 \
+-        --disable-linsys --disable-fbdev --disable-apexsink \
+-        --disable-celt --disable-curl --disable-dc1394 --disable-directfb \
+-        --disable-dirac --disable-faac --disable-flite --disable-gme \
+-        --disable-ladspa --disable-lv2 --disable-mimic --disable-modplug \
+-        --disable-mpeg2enc --disable-mplex --disable-musepack --disable-mythtv \
+-        --disable-neon --disable-ofa --disable-openal --disable-opencv \
+-        --disable-pvr --disable-sdl --disable-sndfile \
+-        --disable-teletextdec --disable-timidity \
+-        --disable-vdpau --disable-voamrwbenc --disable-wildmidi \
+-        --disable-xvid --disable-zbar --disable-sdi --disable-qt'
+-    remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gst-plugins-bad'}
+-    deps = ['gstreamer-1.0', 'gst-plugins-base-1.0', 'bzip2', 'libass',
+-            'faad2', 'libkate', 'zlib', 'openh264', 'opus', 'nettle', 'librtmp',
+-            'libsrtp', 'libdca', 'libmms', 'libdvdnav',
+-            'soundtouch', 'vo-aacenc', 'librsvg', 'openjpeg', 'graphene',
+-            'spandsp', 'webrtc-audio-processing','sbc']
+-    use_system_libs = True
+-
+-    files_plugins_effects_devel = [
+-             'libgstaccurip',
+-             'libgstaiff',
+-             'libgstaudiofxbad',
+-             'libgstautoconvert',
+-             'libgstbayer',
+-             'libgstcoloreffects',
+-             'libgstdebugutilsbad',
+-             'libgstfieldanalysis',
+-             'libgstfreeverb',
+-             'libgstfrei0r',
+-             'libgstgaudieffects',
+-             'libgstgeometrictransform',
+-             'libgstinter',
+-             'libgstinterlace',
+-             'libgstivtc',
+-             'libgstlegacyrawparse',
+-             'libgstremovesilence',
+-             'libgstsegmentclip',
+-             'libgstsmooth',
+-             'libgstspeed',
+-             'libgstsoundtouch',
+-             'libgstvideofiltersbad',
+-             'libgstaudiomixer',
+-             'libgstcompositor',
+-             'libgstwebrtcdsp',
+-    ]
+-
+-    files_plugins_codecs_devel = [
+-             'libgstadpcmdec',
+-             'libgstadpcmenc',
+-             'libgstdashdemux',
+-             'libgstdvbsuboverlay',
+-             'libgstdvdspu',
+-             'libgsthls',
+-             'libgstid3tag',
+-             'libgstkate',
+-             'libgstmidi',
+-             'libgstmxf',
+-             'libgstopenh264',
+-             'libgstopusparse',
+-             'libgstpcapparse',
+-             'libgstpnm',
+-             'libgstrfbsrc',
+-             'libgstsiren',
+-             'libgstsmoothstreaming',
+-             'libgstsubenc',
+-             'libgstvideoparsersbad',
+-             'libgsty4mdec',
+-             'libgstjpegformat',
+-             'libgstgdp',
+-             'libgstrsvg',
+-             'libgstopenjpeg',
+-             'libgstspandsp',
+-             'libgstsbc',
+-    ]
+-
+-    platform_files_plugins_codecs_devel = {
+-        Platform.ANDROID: [
+-             'libgstandroidmedia',
+-            ]
+-    }
+-
+-    files_plugins_codecs_gpl_devel = [
+-             'libgstassrender',
+-    ]
+-
+-    files_plugins_codecs_restricted_devel = [
+-             'libgstasfmux',
+-             'libgstdtsdec',
+-             'libgstfaad',
+-             'libgstmpegpsdemux',
+-             'libgstmpegpsmux',
+-             'libgstmpegtsdemux',
+-             'libgstmpegtsmux',
+-             'libgstvoaacenc'
+-    ]
+-
+-    files_plugins_dvd_devel = [
+-             'libgstresindvd',
+-    ]
+-
+-    files_plugins_net_devel = [
+-             'libgstsdpelem',
+-             'libgstsrtp',
+-    ]
+-
+-    files_plugins_net_restricted_devel = [
+-             'libgstmms',
+-             'libgstrtmp',
+-    ]
+-
+-    files_plugins_capture_devel = [
+-             'libgstcamerabin',
+-            ]
+-
+-
+-    platform_files_plugins_capture_devel = {
+-        Platform.LINUX: [
+-             'libgstdvb',
+-            ],
+-        Platform.WINDOWS: [
+-             'libgstwinscreencap',
+-             'libgstdirectsoundsrc',
+-             'libgstwinks',
+-            ]
+-    }
+-
+-    files_plugins_vis_devel = [
+-             'libgstaudiovisualizers',
+-            ]
+-
+-    platform_files_plugins_sys_devel = {
+-        Platform.LINUX: [
+-             'libgstshm',
+-             'libgstopengl',
+-             'libgstdecklink',
+-            ],
+-        Platform.WINDOWS: [
+-             'libgstd3dvideosink',
+-             'libgstwasapi',
+-             'libgstopengl',
+-            ],
+-        Platform.DARWIN: [
+-             'libgstapplemedia',
+-             'libgstshm',
+-             'libgstopengl',
+-             'libgstdecklink',
+-            ],
+-        Platform.IOS: [
+-             'libgstapplemedia',
+-             'libgstopengl',
+-             'libgstshm',
+-            ],
+-        Platform.ANDROID: [
+-             'libgstopensles',
+-             'libgstopengl',
+-            ]
+-    }
+-
+-    files_plugins_sys  = []
+-
+-    platform_files_codecs_devel = {
+-        Platform.ANDROID: [
+-              'share/gst-android/ndk-build',
+-            ]
+-    }
+-
+-    def prepare(self):
+-        self.append_env['CFLAGS'] = " -Wno-error -DGSTREAMER_GLIB_COCOA_NSAPPLICATION=1 "
+-        self.append_env['OBJCFLAGS'] = " -Wno-error -DGSTREAMER_GLIB_COCOA_NSAPPLICATION=1 "
+-        self.append_env['CXXFLAGS'] = " -Wno-error "
+-        self.append_env['CPPFLAGS'] = " -Wno-error "
+-
+-        if self.config.platform == Platform.WINDOWS:
+-            # FIXME: This will almost certainly fail to build on Windows due to
+-			# https://bugzilla.gnome.org/show_bug.cgi?id=770264
+-			# See also, non-static and gstreamer-1.0-effects.package
+-			self.deps.remove('webrtc-audio-processing')
+-			self.files_plugins_effects_devel.remove('libgstwebrtcdsp')
+-
+-        if self.config.target_platform != Platform.LINUX:
+-            self.configure_options += '--disable-gtk-doc '
+-        if self.config.target_platform == Platform.WINDOWS:
+-            self.configure_options += \
+-                ' --disable-cog --disable-sdl '\
+-                '--disable-cdaudio'
+-        if self.config.target_platform in [ Platform.ANDROID, Platform.IOS ]:
+-            for d in ['libdvdnav']:
+-                self.deps.remove(d)
+-            self.files_plugins_dvd_devel.remove('libgstresindvd')
+-        if self.config.variants.nodebug:
+-            self.append_env['CFLAGS'] += ' -DGST_LEVEL_MAX=GST_LEVEL_FIXME'
+-
+-        if self.config.target_distro_version in [DistroVersion.DEBIAN_SQUEEZE, DistroVersion.DEBIAN_WHEEZY]:
+-            self.platform_files_plugins_capture_devel[Platform.LINUX].remove("libgstdvb")
+-        super(Recipe, self).prepare()
+diff --git a/recipes/gst-plugins-bad-1.0.recipe b/recipes/gst-plugins-bad-1.0.recipe
+index 63ee8ae..0f3f7f3 100644
+--- a/recipes/gst-plugins-bad-1.0.recipe
++++ b/recipes/gst-plugins-bad-1.0.recipe
+@@ -93,6 +93,34 @@ class Recipe(custom.GStreamer):
+              'lib/gstreamer-1.0/libgstwebrtcdsp%(mext)s',
+     ]
+ 
++    files_plugins_effects_devel = [
++             'lib/gstreamer-1.0/libgstaccurip.a', 'lib/gstreamer-1.0/libgstaccurip.la',
++             'lib/gstreamer-1.0/libgstaiff.a', 'lib/gstreamer-1.0/libgstaiff.la',
++             'lib/gstreamer-1.0/libgstaudiofxbad.a', 'lib/gstreamer-1.0/libgstaudiofxbad.la',
++             'lib/gstreamer-1.0/libgstautoconvert.a', 'lib/gstreamer-1.0/libgstautoconvert.la',
++             'lib/gstreamer-1.0/libgstbayer.a', 'lib/gstreamer-1.0/libgstbayer.la',
++             'lib/gstreamer-1.0/libgstcoloreffects.a', 'lib/gstreamer-1.0/libgstcoloreffects.la',
++             'lib/gstreamer-1.0/libgstdebugutilsbad.a', 'lib/gstreamer-1.0/libgstdebugutilsbad.la',
++             'lib/gstreamer-1.0/libgstfieldanalysis.a', 'lib/gstreamer-1.0/libgstfieldanalysis.la',
++             'lib/gstreamer-1.0/libgstfreeverb.a', 'lib/gstreamer-1.0/libgstfreeverb.la',
++             'lib/gstreamer-1.0/libgstfrei0r.a', 'lib/gstreamer-1.0/libgstfrei0r.la',
++             'lib/gstreamer-1.0/libgstgaudieffects.a', 'lib/gstreamer-1.0/libgstgaudieffects.la',
++             'lib/gstreamer-1.0/libgstgeometrictransform.a', 'lib/gstreamer-1.0/libgstgeometrictransform.la',
++             'lib/gstreamer-1.0/libgstinter.a', 'lib/gstreamer-1.0/libgstinter.la',
++             'lib/gstreamer-1.0/libgstinterlace.a', 'lib/gstreamer-1.0/libgstinterlace.la',
++             'lib/gstreamer-1.0/libgstivtc.a', 'lib/gstreamer-1.0/libgstivtc.la',
++             'lib/gstreamer-1.0/libgstlegacyrawparse.a', 'lib/gstreamer-1.0/libgstlegacyrawparse.la',
++             'lib/gstreamer-1.0/libgstremovesilence.a', 'lib/gstreamer-1.0/libgstremovesilence.la',
++             'lib/gstreamer-1.0/libgstsegmentclip.a', 'lib/gstreamer-1.0/libgstsegmentclip.la',
++             'lib/gstreamer-1.0/libgstsmooth.a', 'lib/gstreamer-1.0/libgstsmooth.la',
++             'lib/gstreamer-1.0/libgstspeed.a', 'lib/gstreamer-1.0/libgstspeed.la',
++             'lib/gstreamer-1.0/libgstsoundtouch.a', 'lib/gstreamer-1.0/libgstsoundtouch.la',
++             'lib/gstreamer-1.0/libgstvideofiltersbad.a', 'lib/gstreamer-1.0/libgstvideofiltersbad.la',
++             'lib/gstreamer-1.0/libgstaudiomixer.a', 'lib/gstreamer-1.0/libgstaudiomixer.la',
++             'lib/gstreamer-1.0/libgstcompositor.a', 'lib/gstreamer-1.0/libgstcompositor.la',
++             'lib/gstreamer-1.0/libgstwebrtcdsp.a', 'lib/gstreamer-1.0/libgstwebrtcdsp.la',
++    ]
++
+     files_plugins_codecs = [
+              'lib/gstreamer-1.0/libgstadpcmdec%(mext)s',
+              'lib/gstreamer-1.0/libgstadpcmenc%(mext)s',
+@@ -122,16 +150,55 @@ class Recipe(custom.GStreamer):
+              'lib/gstreamer-1.0/libgstsbc%(mext)s',
+     ]
+ 
++    files_plugins_codecs_devel = [
++             'lib/gstreamer-1.0/libgstadpcmdec.a', 'lib/gstreamer-1.0/libgstadpcmdec.la',
++             'lib/gstreamer-1.0/libgstadpcmenc.a', 'lib/gstreamer-1.0/libgstadpcmenc.la',
++             'lib/gstreamer-1.0/libgstdashdemux.a', 'lib/gstreamer-1.0/libgstdashdemux.la',
++             'lib/gstreamer-1.0/libgstdvbsuboverlay.a', 'lib/gstreamer-1.0/libgstdvbsuboverlay.la',
++             'lib/gstreamer-1.0/libgstdvdspu.a', 'lib/gstreamer-1.0/libgstdvdspu.la',
++             'lib/gstreamer-1.0/libgsthls.a', 'lib/gstreamer-1.0/libgsthls.la',
++             'lib/gstreamer-1.0/libgstid3tag.a', 'lib/gstreamer-1.0/libgstid3tag.la',
++             'lib/gstreamer-1.0/libgstkate.a', 'lib/gstreamer-1.0/libgstkate.la',
++             'lib/gstreamer-1.0/libgstmidi.a', 'lib/gstreamer-1.0/libgstmidi.la',
++             'lib/gstreamer-1.0/libgstmxf.a', 'lib/gstreamer-1.0/libgstmxf.la',
++             'lib/gstreamer-1.0/libgstopenh264.a', 'lib/gstreamer-1.0/libgstopenh264.la',
++             'lib/gstreamer-1.0/libgstopusparse.a', 'lib/gstreamer-1.0/libgstopusparse.la',
++             'lib/gstreamer-1.0/libgstpcapparse.a', 'lib/gstreamer-1.0/libgstpcapparse.la',
++             'lib/gstreamer-1.0/libgstpnm.a', 'lib/gstreamer-1.0/libgstpnm.la',
++             'lib/gstreamer-1.0/libgstrfbsrc.a', 'lib/gstreamer-1.0/libgstrfbsrc.la',
++             'lib/gstreamer-1.0/libgstsiren.a', 'lib/gstreamer-1.0/libgstsiren.la',
++             'lib/gstreamer-1.0/libgstsmoothstreaming.a', 'lib/gstreamer-1.0/libgstsmoothstreaming.la',
++             'lib/gstreamer-1.0/libgstsubenc.a', 'lib/gstreamer-1.0/libgstsubenc.la',
++             'lib/gstreamer-1.0/libgstvideoparsersbad.a', 'lib/gstreamer-1.0/libgstvideoparsersbad.la',
++             'lib/gstreamer-1.0/libgsty4mdec.a', 'lib/gstreamer-1.0/libgsty4mdec.la',
++             'lib/gstreamer-1.0/libgstjpegformat.a', 'lib/gstreamer-1.0/libgstjpegformat.la',
++             'lib/gstreamer-1.0/libgstgdp.a', 'lib/gstreamer-1.0/libgstgdp.la',
++             'lib/gstreamer-1.0/libgstrsvg.a', 'lib/gstreamer-1.0/libgstrsvg.la',
++             'lib/gstreamer-1.0/libgstopenjpeg.a', 'lib/gstreamer-1.0/libgstopenjpeg.la',
++             'lib/gstreamer-1.0/libgstspandsp.a', 'lib/gstreamer-1.0/libgstspandsp.la',
++             'lib/gstreamer-1.0/libgstsbc.a', 'lib/gstreamer-1.0/libgstsbc.la',
++    ]
++
+     platform_files_plugins_codecs = {
+         Platform.ANDROID: [
+              'lib/gstreamer-1.0/libgstandroidmedia%(mext)s',
+             ]
+     }
+ 
++    platform_files_plugins_codecs_devel = {
++        Platform.ANDROID: [
++             'lib/gstreamer-1.0/libgstandroidmedia.a', 'lib/gstreamer-1.0/libgstandroidmedia.la',
++            ]
++    }
++
+     files_plugins_codecs_gpl = [
+              'lib/gstreamer-1.0/libgstassrender%(mext)s',
+     ]
+ 
++    files_plugins_codecs_gpl_devel = [
++             'lib/gstreamer-1.0/libgstassrender.a', 'lib/gstreamer-1.0/libgstassrender.la',
++    ]
++
+     files_plugins_codecs_restricted = [
+              'lib/gstreamer-1.0/libgstasfmux%(mext)s',
+              'lib/gstreamer-1.0/libgstdtsdec%(mext)s',
+@@ -143,24 +210,52 @@ class Recipe(custom.GStreamer):
+              'lib/gstreamer-1.0/libgstvoaacenc%(mext)s'
+     ]
+ 
++    files_plugins_codecs_restricted_devel = [
++             'lib/gstreamer-1.0/libgstasfmux.a', 'lib/gstreamer-1.0/libgstasfmux.la',
++             'lib/gstreamer-1.0/libgstdtsdec.a', 'lib/gstreamer-1.0/libgstdtsdec.la',
++             'lib/gstreamer-1.0/libgstfaad.a', 'lib/gstreamer-1.0/libgstfaad.la',
++             'lib/gstreamer-1.0/libgstmpegpsdemux.a', 'lib/gstreamer-1.0/libgstmpegpsdemux.la',
++             'lib/gstreamer-1.0/libgstmpegpsmux.a', 'lib/gstreamer-1.0/libgstmpegpsmux.la',
++             'lib/gstreamer-1.0/libgstmpegtsdemux.a', 'lib/gstreamer-1.0/libgstmpegtsdemux.la',
++             'lib/gstreamer-1.0/libgstmpegtsmux.a', 'lib/gstreamer-1.0/libgstmpegtsmux.la',
++             'lib/gstreamer-1.0/libgstvoaacenc.a', 'lib/gstreamer-1.0/libgstvoaacenc.la',
++    ]
++
+     files_plugins_dvd = [
+              'lib/gstreamer-1.0/libgstresindvd%(mext)s',
+     ]
+ 
++    files_plugins_dvd_devel = [
++             'lib/gstreamer-1.0/libgstresindvd.a', 'lib/gstreamer-1.0/libgstresindvd.la',
++    ]
++
+     files_plugins_net = [
+              'lib/gstreamer-1.0/libgstsdpelem%(mext)s',
+              'lib/gstreamer-1.0/libgstsrtp%(mext)s',
+     ]
+ 
++    files_plugins_net_devel = [
++             'lib/gstreamer-1.0/libgstsdpelem.a', 'lib/gstreamer-1.0/libgstsdpelem.la',
++             'lib/gstreamer-1.0/libgstsrtp.a', 'lib/gstreamer-1.0/libgstsrtp.la',
++    ]
++
+     files_plugins_net_restricted = [
+              'lib/gstreamer-1.0/libgstmms%(mext)s',
+              'lib/gstreamer-1.0/libgstrtmp%(mext)s',
+     ]
+ 
++    files_plugins_net_restricted_devel = [
++             'lib/gstreamer-1.0/libgstmms.a', 'lib/gstreamer-1.0/libgstmms.la',
++             'lib/gstreamer-1.0/libgstrtmp.a', 'lib/gstreamer-1.0/libgstrtmp.la',
++    ]
++
+     files_plugins_capture = [
+              'lib/gstreamer-1.0/libgstcamerabin%(mext)s'
+     ]
+ 
++    files_plugins_capture_devel = [
++             'lib/gstreamer-1.0/libgstcamerabin.a', 'lib/gstreamer-1.0/libgstcamerabin.la',
++    ]
+ 
+     platform_files_plugins_capture = {
+         Platform.LINUX: [
+@@ -173,10 +268,25 @@ class Recipe(custom.GStreamer):
+             ]
+     }
+ 
++    platform_files_plugins_capture_devel = {
++        Platform.LINUX: [
++             'lib/gstreamer-1.0/libgstdvb.a', 'lib/gstreamer-1.0/libgstdvb.la',
++            ],
++        Platform.WINDOWS: [
++             'lib/gstreamer-1.0/libgstwinscreencap.a', 'lib/gstreamer-1.0/libgstwinscreencap.la',
++             'lib/gstreamer-1.0/libgstdirectsoundsrc.a', 'lib/gstreamer-1.0/libgstdirectsoundsrc.la',
++             'lib/gstreamer-1.0/libgstwinks.a', 'lib/gstreamer-1.0/libgstwinks.la',
++            ]
++    }
++
+     files_plugins_vis = [
+              'lib/gstreamer-1.0/libgstaudiovisualizers%(mext)s',
+     ]
+ 
++    files_plugins_vis_devel = [
++             'lib/gstreamer-1.0/libgstaudiovisualizers.a', 'lib/gstreamer-1.0/libgstaudiovisualizers.la',
++    ]
++
+     platform_files_plugins_sys = {
+         Platform.LINUX: [
+              'lib/gstreamer-1.0/libgstshm%(mext)s',
+@@ -204,6 +314,35 @@ class Recipe(custom.GStreamer):
+              'lib/gstreamer-1.0/libgstopengl%(mext)s'
+             ]
+     }
++
++    platform_files_plugins_sys_devel = {
++        Platform.LINUX: [
++             'lib/gstreamer-1.0/libgstshm.a', 'lib/gstreamer-1.0/libgstshm.la',
++             'lib/gstreamer-1.0/libgstopengl.a', 'lib/gstreamer-1.0/libgstopengl.la',
++             'lib/gstreamer-1.0/libgstdecklink.a', 'lib/gstreamer-1.0/libgstdecklink.la',
++            ],
++        Platform.WINDOWS: [
++             'lib/gstreamer-1.0/libgstd3dvideosink.a', 'lib/gstreamer-1.0/libgstd3dvideosink.la',
++             'lib/gstreamer-1.0/libgstwasapi.a', 'lib/gstreamer-1.0/libgstwasapi.la',
++             'lib/gstreamer-1.0/libgstopengl.a', 'lib/gstreamer-1.0/libgstopengl.la',
++            ],
++        Platform.DARWIN: [
++             'lib/gstreamer-1.0/libgstapplemedia.a', 'lib/gstreamer-1.0/libgstapplemedia.la',
++             'lib/gstreamer-1.0/libgstshm.a', 'lib/gstreamer-1.0/libgstshm.la',
++             'lib/gstreamer-1.0/libgstopengl.a', 'lib/gstreamer-1.0/libgstopengl.la',
++             'lib/gstreamer-1.0/libgstdecklink.a', 'lib/gstreamer-1.0/libgstdecklink.la',
++            ],
++        Platform.IOS: [
++             'lib/gstreamer-1.0/libgstapplemedia.a', 'lib/gstreamer-1.0/libgstapplemedia.la',
++             'lib/gstreamer-1.0/libgstopengl.a', 'lib/gstreamer-1.0/libgstopengl.la',
++             'lib/gstreamer-1.0/libgstshm.a', 'lib/gstreamer-1.0/libgstshm.la',
++            ],
++        Platform.ANDROID: [
++             'lib/gstreamer-1.0/libgstopensles.a', 'lib/gstreamer-1.0/libgstopensles.la',
++             'lib/gstreamer-1.0/libgstopengl.a', 'lib/gstreamer-1.0/libgstopengl.la',
++            ]
++    }
++
+     files_typelibs = [
+         'GstGL-1.0',
+         'GstInsertBin-1.0',
+@@ -211,7 +350,11 @@ class Recipe(custom.GStreamer):
+         'GstPlayer-1.0'
+         ]
+ 
+-    files_plugins_sys  = []
++    platform_files_codecs_devel = {
++        Platform.ANDROID: [
++              'share/gst-android/ndk-build',
++            ]
++    }
+ 
+     def prepare(self):
+         self.append_env['CFLAGS'] = " -Wno-error -DGSTREAMER_GLIB_COCOA_NSAPPLICATION=1 "
+@@ -236,8 +379,12 @@ class Recipe(custom.GStreamer):
+             for d in ['libdvdnav']:
+                 self.deps.remove(d)
+             self.files_plugins_dvd.remove('lib/gstreamer-1.0/libgstresindvd%(mext)s')
++            self.files_plugins_dvd_devel.remove('lib/gstreamer-1.0/libgstresindvd.a')
++            self.files_plugins_dvd_devel.remove('lib/gstreamer-1.0/libgstresindvd.la')
+         if self.config.variants.nodebug:
+             self.append_env['CFLAGS'] += ' -DGST_LEVEL_MAX=GST_LEVEL_FIXME'
+ 
+         if self.config.target_distro_version in [DistroVersion.DEBIAN_SQUEEZE, DistroVersion.DEBIAN_WHEEZY]:
+             self.platform_files_plugins_capture[Platform.LINUX].remove('lib/gstreamer-1.0/libgstdvb%(mext)s')
++            self.platform_files_plugins_capture_devel[Platform.LINUX].remove('lib/gstreamer-1.0/libgstdvb.a')
++            self.platform_files_plugins_capture_devel[Platform.LINUX].remove('lib/gstreamer-1.0/libgstdvb.la')
+diff --git a/recipes/gst-plugins-base-1.0-static.recipe b/recipes/gst-plugins-base-1.0-static.recipe
+deleted file mode 100644
+index 6b4c9c7..0000000
+--- a/recipes/gst-plugins-base-1.0-static.recipe
++++ /dev/null
+@@ -1,97 +0,0 @@
+-# -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
+-
+-
+-class Recipe(custom.GStreamerStatic):
+-    name = 'gst-plugins-base-1.0-static'
+-    extra_configure_options = "--enable-static"
+-    remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gst-plugins-base'}
+-    deps = ['glib', 'gstreamer-1.0', 'libxml2', 'libogg', 'pango', 'libtheora',
+-            'libvisual', 'libvorbis', 'zlib', 'orc', 'opus']
+-    platform_deps = {Platform.ANDROID: [ 'tremor' ], Platform.IOS: [ 'tremor' ] }
+-    use_system_libs = True
+-
+-    files_plugins_core_devel = [
+-             'libgstadder',
+-             'libgstapp',
+-             'libgstaudioconvert',
+-             'libgstaudiorate',
+-             'libgstaudioresample',
+-             'libgstaudiotestsrc',
+-             'libgstgio',
+-             'libgstpango',
+-             'libgstrawparse',
+-             'libgsttypefindfunctions',
+-             'libgstvideoconvert',
+-             'libgstvideorate',
+-             'libgstvideoscale',
+-             'libgstvideotestsrc',
+-             'libgstvolume',
+-    ]
+-
+-    files_plugins_playback_devel = [
+-             'libgstplayback',
+-            ]
+-
+-    # Not used currently
+-    files_plugins_encoding_devel = [
+-             'libgstencoding',
+-            ]
+-
+-    files_plugins_codecs_devel = [
+-             'libgstsubparse',
+-             'libgstogg',
+-             'libgsttheora',
+-             'libgstvorbis',
+-             'libgstopus',
+-            ]
+-
+-    files_plugins_vis_devel = [
+-             'libgstlibvisual',
+-            ]
+-
+-    files_plugins_net_devel = [
+-            'libgsttcp',
+-    ]
+-
+-    files_plugins_sys_devel = []
+-
+-    platform_files_plugins_codecs_devel = {
+-        Platform.ANDROID: [
+-             'libgstivorbisdec',
+-            ],
+-        Platform.IOS: [
+-             'libgstivorbisdec',
+-            ]
+-    }
+-
+-    def prepare(self):
+-        self.append_env['CFLAGS'] = " -Wno-error "
+-        self.append_env['CXXFLAGS'] = " -Wno-error "
+-        self.append_env['CPPFLAGS'] = " -Wno-error "
+-        if self.config.target_platform != Platform.LINUX:
+-            self.configure_options += '--disable-gtk-doc '
+-
+-        if self.config.variants.cdparanoia:
+-            self.deps.append('cdparanoia')
+-            self.files_plugins_sys_devel += ['libgstcdparanoia']
+-        else:
+-            self.configure_options += ' --disable-cdparanoia'
+-
+-        if self.config.variants.x11:
+-            self.files_plugins_sys_devel += [
+-                 'libgstximagesink',
+-                 'libgstxvimagesink',
+-                ]
+-        else:
+-            self.configure_options += ' --disable-x --disable-xvideo'
+-
+-        if self.config.variants.alsa:
+-            self.files_plugins_sys_devel += ['libgstalsa']
+-        else:
+-            self.configure_options += ' --disable-alsa'
+-
+-        if self.config.variants.nodebug:
+-            self.append_env['CFLAGS'] += ' -DGST_LEVEL_MAX=GST_LEVEL_FIXME'
+-
+-        custom.GStreamerStatic.prepare(self)
+-
+diff --git a/recipes/gst-plugins-base-1.0.recipe b/recipes/gst-plugins-base-1.0.recipe
+index cf62195..7661847 100644
+--- a/recipes/gst-plugins-base-1.0.recipe
++++ b/recipes/gst-plugins-base-1.0.recipe
+@@ -37,27 +37,65 @@ class Recipe(custom.GStreamer):
+              'lib/gstreamer-1.0/libgstvolume%(mext)s',
+     ]
+ 
++    files_plugins_core_devel = [
++             'lib/gstreamer-1.0/libgstadder.a', 'lib/gstreamer-1.0/libgstadder.la',
++             'lib/gstreamer-1.0/libgstapp.a', 'lib/gstreamer-1.0/libgstapp.la',
++             'lib/gstreamer-1.0/libgstaudioconvert.a', 'lib/gstreamer-1.0/libgstaudioconvert.la',
++             'lib/gstreamer-1.0/libgstaudiorate.a', 'lib/gstreamer-1.0/libgstaudiorate.la',
++             'lib/gstreamer-1.0/libgstaudioresample.a', 'lib/gstreamer-1.0/libgstaudioresample.la',
++             'lib/gstreamer-1.0/libgstaudiotestsrc.a', 'lib/gstreamer-1.0/libgstaudiotestsrc.la',
++             'lib/gstreamer-1.0/libgstgio.a', 'lib/gstreamer-1.0/libgstgio.la',
++             'lib/gstreamer-1.0/libgstpango.a', 'lib/gstreamer-1.0/libgstpango.la',
++             'lib/gstreamer-1.0/libgstrawparse.a', 'lib/gstreamer-1.0/libgstrawparse.la',
++             'lib/gstreamer-1.0/libgsttypefindfunctions.a', 'lib/gstreamer-1.0/libgsttypefindfunctions.la',
++             'lib/gstreamer-1.0/libgstvideoconvert.a', 'lib/gstreamer-1.0/libgstvideoconvert.la',
++             'lib/gstreamer-1.0/libgstvideorate.a', 'lib/gstreamer-1.0/libgstvideorate.la',
++             'lib/gstreamer-1.0/libgstvideoscale.a', 'lib/gstreamer-1.0/libgstvideoscale.la',
++             'lib/gstreamer-1.0/libgstvideotestsrc.a', 'lib/gstreamer-1.0/libgstvideotestsrc.la',
++             'lib/gstreamer-1.0/libgstvolume.a', 'lib/gstreamer-1.0/libgstvolume.la',
++    ]
++
+     files_plugins_playback = [
+              'lib/gstreamer-1.0/libgstplayback%(mext)s',
+     ]
+ 
++    files_plugins_playback_devel = [
++             'lib/gstreamer-1.0/libgstplayback.a', 'lib/gstreamer-1.0/libgstplayback.la',
++    ]
++
+     # Not used currently
+     files_plugins_encoding = [
+              'lib/gstreamer-1.0/libgstencoding%(mext)s',
+     ]
+ 
++    files_plugins_encoding_devel = [
++             'lib/gstreamer-1.0/libgstencoding.a', 'lib/gstreamer-1.0/libgstencoding.la',
++    ]
++
+     files_plugins_codecs = [
+              'lib/gstreamer-1.0/libgstsubparse%(mext)s',
+              'lib/gstreamer-1.0/libgstogg%(mext)s',
+              'lib/gstreamer-1.0/libgsttheora%(mext)s',
+              'lib/gstreamer-1.0/libgstvorbis%(mext)s',
+              'lib/gstreamer-1.0/libgstopus%(mext)s',
+-            ]
++    ]
++
++    files_plugins_codecs_devel = [
++             'lib/gstreamer-1.0/libgstsubparse.a', 'lib/gstreamer-1.0/libgstsubparse.la',
++             'lib/gstreamer-1.0/libgstogg.a', 'lib/gstreamer-1.0/libgstogg.la',
++             'lib/gstreamer-1.0/libgsttheora.a', 'lib/gstreamer-1.0/libgsttheora.la',
++             'lib/gstreamer-1.0/libgstvorbis.a', 'lib/gstreamer-1.0/libgstvorbis.la',
++             'lib/gstreamer-1.0/libgstopus.a', 'lib/gstreamer-1.0/libgstopus.la',
++    ]
+ 
+     files_plugins_vis = [
+              'lib/gstreamer-1.0/libgstlibvisual%(mext)s',
+     ]
+ 
++    files_plugins_vis_devel = [
++             'lib/gstreamer-1.0/libgstlibvisual.a', 'lib/gstreamer-1.0/libgstlibvisual.la',
++    ]
++
+     files_plugins_devel = [
+             'include/gstreamer-1.0/gst/allocators',
+             'include/gstreamer-1.0/gst/app',
+@@ -87,8 +125,14 @@ class Recipe(custom.GStreamer):
+     files_plugins_net = [
+             'lib/gstreamer-1.0/libgsttcp%(mext)s',
+     ]
++
++    files_plugins_net_devel = [
++            'lib/gstreamer-1.0/libgsttcp.a', 'lib/gstreamer-1.0/libgsttcp.la',
++    ]
++
+     files_plugins_sys = []
+ 
++    files_plugins_sys_devel = []
+ 
+     platform_files_plugins_codecs = {
+         Platform.ANDROID: [
+@@ -99,6 +143,15 @@ class Recipe(custom.GStreamer):
+             ]
+     }
+ 
++    platform_files_plugins_codecs_devel = {
++        Platform.ANDROID: [
++             'lib/gstreamer-1.0/libgstivorbisdec.a', 'lib/gstreamer-1.0/libgstivorbisdec.la',
++            ],
++        Platform.IOS: [
++             'lib/gstreamer-1.0/libgstivorbisdec.a', 'lib/gstreamer-1.0/libgstivorbisdec.la',
++            ]
++    }
++
+     files_lang = ['gst-plugins-base-1.0']
+ 
+     files_typelibs = [
+@@ -125,6 +178,9 @@ class Recipe(custom.GStreamer):
+         if self.config.variants.cdparanoia:
+             self.deps.append('cdparanoia')
+             self.files_plugins_sys += ['lib/gstreamer-1.0/libgstcdparanoia%(mext)s']
++            self.files_plugins_sys_devel += [
++                'lib/gstreamer-1.0/libgstcdparanoia.a', 'lib/gstreamer-1.0/libgstcdparanoia.la',
++            ]
+         else:
+             self.configure_options += ' --disable-cdparanoia'
+ 
+@@ -133,11 +189,19 @@ class Recipe(custom.GStreamer):
+                  'lib/gstreamer-1.0/libgstximagesink%(mext)s',
+                  'lib/gstreamer-1.0/libgstxvimagesink%(mext)s',
+             ]
++
++            self.files_plugins_sys_devel += [
++                 'lib/gstreamer-1.0/libgstximagesink.a', 'lib/gstreamer-1.0/libgstximagesink.la',
++                 'lib/gstreamer-1.0/libgstxvimagesink.a', 'lib/gstreamer-1.0/libgstxvimagesink.la',
++            ]
+         else:
+             self.configure_options += ' --disable-x --disable-xvideo '
+ 
+         if self.config.variants.alsa:
+             self.files_plugins_sys += ['lib/gstreamer-1.0/libgstalsa%(mext)s']
++            self.files_plugins_sys_devel += [
++                'lib/gstreamer-1.0/libgstalsa.a', 'lib/gstreamer-1.0/libgstalsa.la',
++            ]
+         else:
+             self.configure_options += ' --disable-alsa'
+ 
+diff --git a/recipes/gst-plugins-good-1.0-static.recipe b/recipes/gst-plugins-good-1.0-static.recipe
+deleted file mode 100644
+index bc0627f..0000000
+--- a/recipes/gst-plugins-good-1.0-static.recipe
++++ /dev/null
+@@ -1,129 +0,0 @@
+-# -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
+-
+-
+-class Recipe(custom.GStreamerStatic):
+-    name = 'gst-plugins-good-1.0-static'
+-    extra_configure_options = '--enable-static --disable-oss4 --disable-oss --disable-dv1394 --disable-aalib --disable-libcaca --disable-jack --disable-shout2'
+-    remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gst-plugins-good'}
+-    deps = ['gstreamer-1.0', 'gst-plugins-base-1.0', 'libjpeg-turbo', 'libpng',
+-            'speex', 'gdk-pixbuf', 'libsoup',
+-            'orc', 'wavpack', 'flac', 'taglib', 'bzip2', 'zlib',
+-            'libvpx', 'libdv', 'cairo']
+-
+-
+-    files_plugins_core_devel = [
+-             'libgstautodetect',
+-             'libgstvideofilter',
+-    ]
+-
+-    files_plugins_effects_devel = [
+-             'libgstalpha',
+-             'libgstalphacolor',
+-             'libgstaudiofx',
+-             'libgstcairo',
+-             'libgstcutter',
+-             'libgstdebug',
+-             'libgstdeinterlace',
+-             'libgstdtmf',
+-             'libgsteffectv',
+-             'libgstequalizer',
+-             'libgstgdkpixbuf',
+-             'libgstimagefreeze',
+-             'libgstinterleave',
+-             'libgstlevel',
+-             'libgstmultifile',
+-             'libgstreplaygain',
+-             'libgstshapewipe',
+-             'libgstsmpte',
+-             'libgstspectrum',
+-             'libgstvideobox',
+-             'libgstvideocrop',
+-             'libgstvideomixer',
+-    ]
+-
+-    files_plugins_codecs_devel = [
+-             'libgstalaw',
+-             'libgstapetag',
+-             'libgstaudioparsers',
+-             'libgstauparse',
+-             'libgstavi',
+-             'libgstdv',
+-             'libgstflac',
+-             'libgstflv',
+-             'libgstflxdec',
+-             'libgsticydemux',
+-             'libgstid3demux',
+-             'libgstisomp4',
+-             'libgstjpeg',
+-             'libgstmatroska',
+-             'libgstmulaw',
+-             'libgstmultipart',
+-             'libgstpng',
+-             'libgstspeex',
+-             'libgsttaglib',
+-             'libgstvpx',
+-             'libgstwavenc',
+-             'libgstwavpack',
+-             'libgstwavparse',
+-             'libgsty4menc',
+-    ]
+-
+-    files_plugins_net_devel = [
+-             'libgstrtsp',
+-             'libgstrtp',
+-             'libgstrtpmanager',
+-             'libgstsoup',
+-             'libgstudp',
+-    ]
+-
+-    files_plugins_vis_devel = [
+-             'libgstgoom',
+-             'libgstgoom2k1',
+-            ]
+-
+-    files_plugins_capture_devel = []
+-
+-    files_plugins_sys_devel = []
+-
+-    platform_files_plugins_sys_devel = {
+-        Platform.WINDOWS: [
+-             'libgstdirectsoundsink',
+-            ],
+-        Platform.DARWIN: [
+-             'libgstosxaudio',
+-             'libgstosxvideosink',
+-            ],
+-        Platform.IOS: [
+-             'libgstosxaudio'
+-        ]
+-    }
+-
+-    def prepare(self):
+-        # The second detail is to work around use of deprecated NSOpenGLPFAFullScreen on OS X 10.10
+-        self.append_env['CFLAGS'] = " -Wno-error -Wno-error=deprecated-declarations -DGSTREAMER_GLIB_COCOA_NSAPPLICATION=1 -DLIBSOUP_DOES_NOT_STEAL_OUR_CONTEXT=1 "
+-        self.append_env['OBJCFLAGS'] = " -Wno-error -DGSTREAMER_GLIB_COCOA_NSAPPLICATION=1 "
+-        self.append_env['CXXFLAGS'] = " -Wno-error -Wno-error=deprecated-declarations "
+-        self.append_env['CPPFLAGS'] = " -Wno-error -Wno-error=deprecated-declarations "
+-        if self.config.target_platform != Platform.LINUX:
+-            self.configure_options += '  --disable-gtk-doc'
+-        if self.config.target_platform == Platform.WINDOWS:
+-            self.configure_options += '  --disable-aalib --disable-esd'
+-        if self.config.target_platform == Platform.LINUX:
+-            self.use_system_libs = True
+-        if self.config.variants.v4l2:
+-            self.files_plugins_capture_devel += ['libgstvideo4linux2']
+-        else:
+-            self.configure_options += ' --disable-gst_v4l2'
+-        if self.config.variants.x11:
+-            self.files_plugins_capture_devel += ['libgstximagesrc']
+-        else:
+-            self.configure_options += '  --disable-x'
+-        if self.config.variants.pulse:
+-            self.files_plugins_sys_devel += ['libgstpulseaudio']
+-        else:
+-            self.configure_options += '  --disable-pulse'
+-
+-        if self.config.variants.nodebug:
+-            self.append_env['CFLAGS'] += ' -DGST_LEVEL_MAX=GST_LEVEL_FIXME'
+-
+-        custom.GStreamerStatic.prepare(self)
+diff --git a/recipes/gst-plugins-good-1.0.recipe b/recipes/gst-plugins-good-1.0.recipe
+index c1c20e2..a4e8a4f 100644
+--- a/recipes/gst-plugins-good-1.0.recipe
++++ b/recipes/gst-plugins-good-1.0.recipe
+@@ -4,7 +4,7 @@
+ class Recipe(custom.GStreamer):
+     name = 'gst-plugins-good-1.0'
+     config_sh = 'sh ./autogen.sh --noconfigure && ./configure'
+-    configure_options = '--disable-examples --disable-oss4 --disable-oss --disable-dv1394 --disable-aalib --disable-libcaca --disable-jack --disable-shout2 '
++    configure_options = '--enable-static --disable-examples --disable-oss4 --disable-oss --disable-dv1394 --disable-aalib --disable-libcaca --disable-jack --disable-shout2 '
+     remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gst-plugins-good'}
+     deps = ['gstreamer-1.0', 'gst-plugins-base-1.0', 'libjpeg-turbo', 'libpng',
+             'speex', 'gdk-pixbuf', 'libsoup',
+@@ -19,6 +19,11 @@ class Recipe(custom.GStreamer):
+              'lib/gstreamer-1.0/libgstvideofilter%(mext)s',
+     ]
+ 
++    files_plugins_core_devel = [
++             'lib/gstreamer-1.0/libgstautodetect.a', 'lib/gstreamer-1.0/libgstautodetect.la',
++             'lib/gstreamer-1.0/libgstvideofilter.a', 'lib/gstreamer-1.0/libgstvideofilter.la',
++    ]
++
+     files_plugins_effects = [
+              'lib/gstreamer-1.0/libgstalpha%(mext)s',
+              'lib/gstreamer-1.0/libgstalphacolor%(mext)s',
+@@ -44,6 +49,31 @@ class Recipe(custom.GStreamer):
+              'lib/gstreamer-1.0/libgstvideomixer%(mext)s',
+     ]
+ 
++    files_plugins_effects_devel = [
++             'lib/gstreamer-1.0/libgstalpha.a', 'lib/gstreamer-1.0/libgstalpha.la',
++             'lib/gstreamer-1.0/libgstalphacolor.a', 'lib/gstreamer-1.0/libgstalphacolor.la',
++             'lib/gstreamer-1.0/libgstaudiofx.a', 'lib/gstreamer-1.0/libgstaudiofx.la',
++             'lib/gstreamer-1.0/libgstcairo.a', 'lib/gstreamer-1.0/libgstcairo.la',
++             'lib/gstreamer-1.0/libgstcutter.a', 'lib/gstreamer-1.0/libgstcutter.la',
++             'lib/gstreamer-1.0/libgstdebug.a', 'lib/gstreamer-1.0/libgstdebug.la',
++             'lib/gstreamer-1.0/libgstdeinterlace.a', 'lib/gstreamer-1.0/libgstdeinterlace.la',
++             'lib/gstreamer-1.0/libgstdtmf.a', 'lib/gstreamer-1.0/libgstdtmf.la',
++             'lib/gstreamer-1.0/libgsteffectv.a', 'lib/gstreamer-1.0/libgsteffectv.la',
++             'lib/gstreamer-1.0/libgstequalizer.a', 'lib/gstreamer-1.0/libgstequalizer.la',
++             'lib/gstreamer-1.0/libgstgdkpixbuf.a', 'lib/gstreamer-1.0/libgstgdkpixbuf.la',
++             'lib/gstreamer-1.0/libgstimagefreeze.a', 'lib/gstreamer-1.0/libgstimagefreeze.la',
++             'lib/gstreamer-1.0/libgstinterleave.a', 'lib/gstreamer-1.0/libgstinterleave.la',
++             'lib/gstreamer-1.0/libgstlevel.a', 'lib/gstreamer-1.0/libgstlevel.la',
++             'lib/gstreamer-1.0/libgstmultifile.a', 'lib/gstreamer-1.0/libgstmultifile.la',
++             'lib/gstreamer-1.0/libgstreplaygain.a', 'lib/gstreamer-1.0/libgstreplaygain.la',
++             'lib/gstreamer-1.0/libgstshapewipe.a', 'lib/gstreamer-1.0/libgstshapewipe.la',
++             'lib/gstreamer-1.0/libgstsmpte.a', 'lib/gstreamer-1.0/libgstsmpte.la',
++             'lib/gstreamer-1.0/libgstspectrum.a', 'lib/gstreamer-1.0/libgstspectrum.la',
++             'lib/gstreamer-1.0/libgstvideobox.a', 'lib/gstreamer-1.0/libgstvideobox.la',
++             'lib/gstreamer-1.0/libgstvideocrop.a', 'lib/gstreamer-1.0/libgstvideocrop.la',
++             'lib/gstreamer-1.0/libgstvideomixer.a', 'lib/gstreamer-1.0/libgstvideomixer.la',
++    ]
++
+     files_plugins_codecs = [
+              'lib/gstreamer-1.0/libgstalaw%(mext)s',
+              'lib/gstreamer-1.0/libgstapetag%(mext)s',
+@@ -71,6 +101,33 @@ class Recipe(custom.GStreamer):
+              'lib/gstreamer-1.0/libgsty4menc%(mext)s',
+     ]
+ 
++    files_plugins_codecs_devel = [
++             'lib/gstreamer-1.0/libgstalaw.a', 'lib/gstreamer-1.0/libgstalaw.la',
++             'lib/gstreamer-1.0/libgstapetag.a', 'lib/gstreamer-1.0/libgstapetag.la',
++             'lib/gstreamer-1.0/libgstaudioparsers.a', 'lib/gstreamer-1.0/libgstaudioparsers.la',
++             'lib/gstreamer-1.0/libgstauparse.a', 'lib/gstreamer-1.0/libgstauparse.la',
++             'lib/gstreamer-1.0/libgstavi.a', 'lib/gstreamer-1.0/libgstavi.la',
++             'lib/gstreamer-1.0/libgstdv.a', 'lib/gstreamer-1.0/libgstdv.la',
++             'lib/gstreamer-1.0/libgstflac.a', 'lib/gstreamer-1.0/libgstflac.la',
++             'lib/gstreamer-1.0/libgstflv.a', 'lib/gstreamer-1.0/libgstflv.la',
++             'lib/gstreamer-1.0/libgstflxdec.a', 'lib/gstreamer-1.0/libgstflxdec.la',
++             'lib/gstreamer-1.0/libgsticydemux.a', 'lib/gstreamer-1.0/libgsticydemux.la',
++             'lib/gstreamer-1.0/libgstid3demux.a', 'lib/gstreamer-1.0/libgstid3demux.la',
++             'lib/gstreamer-1.0/libgstisomp4.a', 'lib/gstreamer-1.0/libgstisomp4.la',
++             'lib/gstreamer-1.0/libgstjpeg.a', 'lib/gstreamer-1.0/libgstjpeg.la',
++             'lib/gstreamer-1.0/libgstmatroska.a', 'lib/gstreamer-1.0/libgstmatroska.la',
++             'lib/gstreamer-1.0/libgstmulaw.a', 'lib/gstreamer-1.0/libgstmulaw.la',
++             'lib/gstreamer-1.0/libgstmultipart.a', 'lib/gstreamer-1.0/libgstmultipart.la',
++             'lib/gstreamer-1.0/libgstpng.a', 'lib/gstreamer-1.0/libgstpng.la',
++             'lib/gstreamer-1.0/libgstspeex.a', 'lib/gstreamer-1.0/libgstspeex.la',
++             'lib/gstreamer-1.0/libgsttaglib.a', 'lib/gstreamer-1.0/libgsttaglib.la',
++             'lib/gstreamer-1.0/libgstvpx.a', 'lib/gstreamer-1.0/libgstvpx.la',
++             'lib/gstreamer-1.0/libgstwavenc.a', 'lib/gstreamer-1.0/libgstwavenc.la',
++             'lib/gstreamer-1.0/libgstwavpack.a', 'lib/gstreamer-1.0/libgstwavpack.la',
++             'lib/gstreamer-1.0/libgstwavparse.a', 'lib/gstreamer-1.0/libgstwavparse.la',
++             'lib/gstreamer-1.0/libgsty4menc.a', 'lib/gstreamer-1.0/libgsty4menc.la',
++    ]
++
+     files_plugins_net = [
+              'lib/gstreamer-1.0/libgstrtsp%(mext)s',
+              'lib/gstreamer-1.0/libgstrtp%(mext)s',
+@@ -79,14 +136,29 @@ class Recipe(custom.GStreamer):
+              'lib/gstreamer-1.0/libgstudp%(mext)s',
+     ]
+ 
++    files_plugins_net_devel = [
++             'lib/gstreamer-1.0/libgstrtsp.a', 'lib/gstreamer-1.0/libgstrtsp.la',
++             'lib/gstreamer-1.0/libgstrtp.a', 'lib/gstreamer-1.0/libgstrtp.la',
++             'lib/gstreamer-1.0/libgstrtpmanager.a', 'lib/gstreamer-1.0/libgstrtpmanager.la',
++             'lib/gstreamer-1.0/libgstsoup.a', 'lib/gstreamer-1.0/libgstsoup.la',
++             'lib/gstreamer-1.0/libgstudp.a', 'lib/gstreamer-1.0/libgstudp.la',
++    ]
++
+     files_plugins_vis = [
+              'lib/gstreamer-1.0/libgstgoom%(mext)s',
+              'lib/gstreamer-1.0/libgstgoom2k1%(mext)s',
+     ]
+ 
++    files_plugins_vis_devel = [
++             'lib/gstreamer-1.0/libgstgoom.a', 'lib/gstreamer-1.0/libgstgoom.la',
++             'lib/gstreamer-1.0/libgstgoom2k1.a', 'lib/gstreamer-1.0/libgstgoom2k1.la',
++    ]
++
+     files_plugins_capture = []
++    files_plugins_capture_devel = []
+ 
+     files_plugins_sys = []
++    files_plugins_sys_devel = []
+ 
+     platform_files_plugins_sys = {
+         Platform.WINDOWS: [
+@@ -101,6 +173,20 @@ class Recipe(custom.GStreamer):
+         ]
+     }
+ 
++    platform_files_plugins_sys_devel = {
++        Platform.WINDOWS: [
++             'lib/gstreamer-1.0/libgstdirectsoundsink.a', 'lib/gstreamer-1.0/libgstdirectsoundsink.la',
++            ],
++        Platform.DARWIN: [
++             'lib/gstreamer-1.0/libgstosxaudio.a', 'lib/gstreamer-1.0/libgstosxaudio.la',
++             'lib/gstreamer-1.0/libgstosxvideosink.a', 'lib/gstreamer-1.0/libgstosxvideosink.la',
++            ],
++        Platform.IOS: [
++             'lib/gstreamer-1.0/libgstosxaudio.a', 'lib/gstreamer-1.0/libgstosxaudio.la',
++        ]
++    }
++
++
+     def prepare(self):
+         # The second detail is to work around use of deprecated NSOpenGLPFAFullScreen on OS X 10.10
+         self.append_env['CFLAGS'] = " -Wno-error -Wno-error=deprecated-declarations -DGSTREAMER_GLIB_COCOA_NSAPPLICATION=1 -DLIBSOUP_DOES_NOT_STEAL_OUR_CONTEXT=1 "
+@@ -115,15 +201,24 @@ class Recipe(custom.GStreamer):
+             self.use_system_libs = True
+         if self.config.variants.v4l2:
+             self.files_plugins_capture += ['lib/gstreamer-1.0/libgstvideo4linux2%(mext)s']
++            self.files_plugins_capture_devel += [
++                'lib/gstreamer-1.0/libgstvideo4linux2.a', 'lib/gstreamer-1.0/libgstvideo4linux2.la',
++            ]
+         else:
+             self.configure_options += ' --disable-gst_v4l2'
+         if self.config.variants.x11:
+             self.files_plugins_capture += ['lib/gstreamer-1.0/libgstximagesrc%(mext)s']
++            self.files_plugins_capture_devel += [
++                'lib/gstreamer-1.0/libgstximagesrc.a', 'lib/gstreamer-1.0/libgstximagesrc.la',
++            ]
+         else:
+             self.configure_options += ' --disable-x --disable-xvideo'
+ 
+         if self.config.variants.pulse:
+             self.files_plugins_sys += ['lib/gstreamer-1.0/libgstpulseaudio%(mext)s']
++            self.files_plugins_sys_devel += [
++                'lib/gstreamer-1.0/libgstpulseaudio.a', 'lib/gstreamer-1.0/libgstpulseaudio.la',
++            ]
+         else:
+             self.configure_options += ' --disable-pulse'
+ 
+diff --git a/recipes/gst-plugins-ugly-1.0-static.recipe b/recipes/gst-plugins-ugly-1.0-static.recipe
+deleted file mode 100644
+index 8edc99e..0000000
+--- a/recipes/gst-plugins-ugly-1.0-static.recipe
++++ /dev/null
+@@ -1,44 +0,0 @@
+-# -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
+-
+-
+-class Recipe(custom.GStreamerStatic):
+-    name = 'gst-plugins-ugly-1.0-static'
+-    extra_configure_options = "--enable-static --disable-iec958 --disable-mpegstream --disable-cdio --disable-sidplay --disable-twolame"
+-    remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gst-plugins-ugly'}
+-    deps = ['gstreamer-1.0', 'gst-plugins-base-1.0', 'a52dec', 'opencore-amr',
+-            'libdvdread', 'libmpeg2', 'x264', 'lame', 'mpg123']
+-
+-    files_plugins_codecs_restricted_devel = [
+-             'libgsta52dec',
+-             'libgstamrnb',
+-             'libgstamrwbdec',
+-             'libgstasf',
+-             'libgstdvdsub',
+-             'libgstdvdlpcmdec',
+-             'libgstmpeg2dec',
+-             'libgstxingmux',
+-             'libgstrealmedia',
+-             'libgstx264',
+-             'libgstlame',
+-             'libgstmpg123',
+-    ]
+-
+-    files_plugins_dvd_devel = [
+-             'libgstdvdread',
+-    ]
+-
+-    def prepare(self):
+-        self.append_env['CFLAGS'] = " -Wno-error "
+-        self.append_env['CXXFLAGS'] = " -Wno-error "
+-        self.append_env['CPPFLAGS'] = " -Wno-error "
+-        if self.config.target_platform != Platform.LINUX:
+-            self.configure_options += ' --disable-gtk-doc'
+-        if self.config.variants.nodebug:
+-            self.append_env['CFLAGS'] += ' -DGST_LEVEL_MAX=GST_LEVEL_FIXME'
+-
+-        if self.config.target_platform in [ Platform.ANDROID, Platform.IOS ]:
+-            for d in ['libdvdread']:
+-                self.deps.remove(d)
+-            self.files_plugins_dvd_devel.remove('libgstdvdread')
+-
+-        custom.GStreamerStatic.prepare(self)
+diff --git a/recipes/gst-plugins-ugly-1.0.recipe b/recipes/gst-plugins-ugly-1.0.recipe
+index 6068c5c..e19cd44 100644
+--- a/recipes/gst-plugins-ugly-1.0.recipe
++++ b/recipes/gst-plugins-ugly-1.0.recipe
+@@ -4,7 +4,7 @@
+ class Recipe(custom.GStreamer):
+     name = 'gst-plugins-ugly-1.0'
+     config_sh = 'sh ./autogen.sh --noconfigure && ./configure'
+-    configure_options = "--disable-examples --disable-iec958 --disable-mpegstream --disable-cdio --disable-sidplay --disable-twolame "
++    configure_options = "--enable-static --disable-examples --disable-iec958 --disable-mpegstream --disable-cdio --disable-sidplay --disable-twolame "
+     remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gst-plugins-ugly'}
+     deps = ['gstreamer-1.0', 'gst-plugins-base-1.0', 'a52dec', 'opencore-amr',
+             'libdvdread', 'libmpeg2', 'x264', 'lame', 'mpg123']
+@@ -24,10 +24,29 @@ class Recipe(custom.GStreamer):
+              'lib/gstreamer-1.0/libgstmpg123%(mext)s',
+     ]
+ 
++    files_plugins_codecs_restricted_devel = [
++             'lib/gstreamer-1.0/libgsta52dec.a', 'lib/gstreamer-1.0/libgsta52dec.la',
++             'lib/gstreamer-1.0/libgstamrnb.a', 'lib/gstreamer-1.0/libgstamrnb.la',
++             'lib/gstreamer-1.0/libgstamrwbdec.a', 'lib/gstreamer-1.0/libgstamrwbdec.la',
++             'lib/gstreamer-1.0/libgstasf.a', 'lib/gstreamer-1.0/libgstasf.la',
++             'lib/gstreamer-1.0/libgstdvdsub.a', 'lib/gstreamer-1.0/libgstdvdsub.la',
++             'lib/gstreamer-1.0/libgstdvdlpcmdec.a', 'lib/gstreamer-1.0/libgstdvdlpcmdec.la',
++             'lib/gstreamer-1.0/libgstmpeg2dec.a', 'lib/gstreamer-1.0/libgstmpeg2dec.la',
++             'lib/gstreamer-1.0/libgstxingmux.a', 'lib/gstreamer-1.0/libgstxingmux.la',
++             'lib/gstreamer-1.0/libgstrealmedia.a', 'lib/gstreamer-1.0/libgstrealmedia.la',
++             'lib/gstreamer-1.0/libgstx264.a', 'lib/gstreamer-1.0/libgstx264.la',
++             'lib/gstreamer-1.0/libgstlame.a', 'lib/gstreamer-1.0/libgstlame.la',
++             'lib/gstreamer-1.0/libgstmpg123.a', 'lib/gstreamer-1.0/libgstmpg123.la',
++    ]
++
+     files_plugins_dvd = [
+              'lib/gstreamer-1.0/libgstdvdread%(mext)s',
+     ]
+ 
++    files_plugins_dvd_devel = [
++             'lib/gstreamer-1.0/libgstdvdread.a', 'lib/gstreamer-1.0/libgstdvdread.la',
++    ]
++
+     files_lang = ['gst-plugins-ugly-1.0']
+ 
+     def prepare(self):
+@@ -41,6 +60,8 @@ class Recipe(custom.GStreamer):
+             for d in ['libdvdread']:
+                 self.deps.remove(d)
+             self.files_plugins_dvd.remove('lib/gstreamer-1.0/libgstdvdread%(mext)s')
++            self.files_plugins_dvd_devel.remove('lib/gstreamer-1.0/libgstdvdread.la')
++            self.files_plugins_dvd_devel.remove('lib/gstreamer-1.0/libgstdvdread.a')
+ 
+         if self.config.variants.nodebug:
+             self.append_env['CFLAGS'] += ' -DGST_LEVEL_MAX=GST_LEVEL_FIXME'
+diff --git a/recipes/gst-rtsp-server-1.0-static.recipe b/recipes/gst-rtsp-server-1.0-static.recipe
+deleted file mode 100644
+index 2361192..0000000
+--- a/recipes/gst-rtsp-server-1.0-static.recipe
++++ /dev/null
+@@ -1,21 +0,0 @@
+-# -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
+-
+-
+-class Recipe(custom.GStreamerStatic):
+-    name = 'gst-rtsp-server-1.0-static'
+-    extra_configure_options = "--disable-examples --enable-static"
+-    remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gst-rtsp-server'}
+-    deps = ['gstreamer-1.0', 'gst-plugins-base-1.0' ]
+-    use_system_libs = True
+-
+-    files_plugins_net_devel = [ 'libgstrtspclientsink' ]
+-
+-    def prepare(self):
+-        self.append_env['CFLAGS'] = " -Wno-error "
+-        self.append_env['CXXFLAGS'] = " -Wno-error "
+-        self.append_env['CPPFLAGS'] = " -Wno-error "
+-        if self.config.target_platform != Platform.LINUX:
+-            self.configure_options += '--disable-gtk-doc '
+-
+-        custom.GStreamerStatic.prepare(self)
+-
+diff --git a/recipes/gst-rtsp-server-1.0.recipe b/recipes/gst-rtsp-server-1.0.recipe
+index 12a30f7..872eb7b 100644
+--- a/recipes/gst-rtsp-server-1.0.recipe
++++ b/recipes/gst-rtsp-server-1.0.recipe
+@@ -11,6 +11,9 @@ class Recipe(custom.GStreamer):
+     files_libs = ['libgstrtspserver-1.0']
+     files_typelibs = ['GstRtspServer-1.0']
+     files_plugins_net = [ 'lib/gstreamer-1.0/libgstrtspclientsink%(mext)s' ]
++    files_plugins_net_devel = [
++        'lib/gstreamer-1.0/libgstrtspclientsink.a', 'lib/gstreamer-1.0/libgstrtspclientsink.la',
++    ]
+ 
+     def prepare(self):
+         self.append_env['CFLAGS'] = " -Wno-error "
+diff --git a/recipes/gst-transcoder.recipe b/recipes/gst-transcoder.recipe
+index 83a7606..3f72c98 100644
+--- a/recipes/gst-transcoder.recipe
++++ b/recipes/gst-transcoder.recipe
+@@ -24,6 +24,10 @@ class Recipe(recipe.Recipe):
+              'lib/gstreamer-1.0/libgsttranscoderplugin%(mext)s',
+     ]
+ 
++    files_plugins_encoding_devel = [
++             'lib/gstreamer-1.0/libgsttranscoderplugin.a', 'lib/gstreamer-1.0/libgsttranscoderplugin.la',
++    ]
++
+     files_bins = ['gst-transcoder-1.0']
+     btype = BuildType.MAKEFILE
+ 
+diff --git a/recipes/gstreamer-1.0-static.recipe b/recipes/gstreamer-1.0-static.recipe
+deleted file mode 100644
+index 5373fd0..0000000
+--- a/recipes/gstreamer-1.0-static.recipe
++++ /dev/null
+@@ -1,34 +0,0 @@
+-# -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
+-
+-
+-class Recipe(custom.GStreamerStatic):
+-    name = 'gstreamer-1.0-static'
+-    extra_configure_options = '--enable-static'
+-    remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gstreamer'}
+-    deps = ['glib', 'gtk-doc-lite']
+-    # Static build will always fail on make check
+-    make_check = None
+-
+-    files_plugins_core_devel = ['libgstcoreelements']
+-
+-    def prepare(self):
+-        self.append_env['CFLAGS'] = " -Wno-error "
+-        self.append_env['CXXFLAGS'] = " -Wno-error "
+-        self.append_env['CPPFLAGS'] = " -Wno-error "
+-
+-        if self.config.target_platform != Platform.LINUX:
+-            self.configure_options += ' --disable-gtk-doc --disable-docbook'
+-
+-        if self.config.target_platform == Platform.IOS:
+-            # iOS only supports static builds so plugins must be linked
+-            # and registered statically.
+-            self.configure_options += ' --disable-registry '
+-
+-        if self.config.variants.nodebug:
+-            self.append_env['CFLAGS'] += ' -DGST_LEVEL_MAX=GST_LEVEL_FIXME'
+-
+-        if self.config.variants.unwind:
+-            self.deps += ['libunwind']
+-
+-        custom.GStreamerStatic.prepare(self)
+-
+diff --git a/recipes/gstreamer-1.0.recipe b/recipes/gstreamer-1.0.recipe
+index 373418a..29bcebc 100644
+--- a/recipes/gstreamer-1.0.recipe
++++ b/recipes/gstreamer-1.0.recipe
+@@ -22,6 +22,9 @@ class Recipe(custom.GStreamer):
+     }
+ 
+     files_plugins_core = ['lib/gstreamer-1.0/libgstcoreelements%(mext)s']
++    files_plugins_core_devel = [
++        'lib/gstreamer-1.0/libgstcoreelements.a', 'lib/gstreamer-1.0/libgstcoreelements.la',
++    ]
+ 
+     files_misc = ['libexec/gstreamer-1.0/gst-plugin-scanner%(bext)s']
+ 
+diff --git a/recipes/libnice-static.recipe b/recipes/libnice-static.recipe
+deleted file mode 100644
+index 9c261eb..0000000
+--- a/recipes/libnice-static.recipe
++++ /dev/null
+@@ -1,25 +0,0 @@
+-# -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
+-
+-class Recipe(custom.GStreamerStatic):
+-    name = 'libnice-static'
+-    version = '0.1.13'
+-    gstreamer_version = '1.0'
+-    stype = SourceType.TARBALL
+-    srcdir = '../libnice-' + version
+-    url = 'http://nice.freedesktop.org/releases/libnice-%(version)s.tar.gz'
+-    licenses = [License.LGPLv2_1Plus, License.MPLv1_1]
+-    extra_configure_options = ' --without-gstreamer-0.10 \
+-        --enable-compile-warnings=maximum'
+-    deps = ['glib', 'gtk-doc-lite', 'gstreamer-1.0']
+-    autoreconf = True
+-    patches = [
+-        "libnice/0001-agent-Remove-unnecessary-NULL-check.patch",
+-        "libnice/0002-Do-not-update-a-remote-candidate-s-type.patch",
+-        "libnice/0003-Do-not-compare-scope-for-IPv6-address-when-scope-is-.patch",
+-        "libnice/0004-Removing-no-op-assignment.patch",
+-        "libnice/0001-nicesrc-spin-the-agent-mainloop-in-a-separate-thread.patch"
+-    ]
+-
+-
+-    files_plugins_net_devel = ['libgstnice']
+-    # FIXME - if_arp.h? (iOS)
+diff --git a/recipes/libnice.recipe b/recipes/libnice.recipe
+index 6179d24..ffc4cd8 100644
+--- a/recipes/libnice.recipe
++++ b/recipes/libnice.recipe
+@@ -6,9 +6,9 @@ class Recipe(recipe.Recipe):
+     stype = SourceType.TARBALL
+     url = 'http://nice.freedesktop.org/releases/%(name)s-%(version)s.tar.gz'
+     licenses = [License.LGPLv2_1Plus, License.MPLv1_1]
+-    configure_options = ' --enable-static --enable-shared --with-gstreamer \
+-            --without-gstreamer-0.10 --enable-compile-warnings=maximum \
+-            --disable-gtk-doc'
++    configure_options = '--enable-static --enable-static-plugins --enable-shared \
++            --with-gstreamer --without-gstreamer-0.10 \
++            --enable-compile-warnings=maximum --disable-gtk-doc'
+     deps = ['glib', 'gtk-doc-lite', 'gstreamer-1.0']
+     autoreconf = True
+     patches = [
+@@ -27,12 +27,7 @@ class Recipe(recipe.Recipe):
+         'lib/pkgconfig/nice.pc',
+     ]
+     files_plugins_net = ['lib/gstreamer-1.0/libgstnice%(mext)s']
++    files_plugins_net_devel = [
++        'lib/gstreamer-1.0/libgstnice.a', 'lib/gstreamer-1.0/libgstnice.la',
++    ]
+     # FIXME - if_arp.h? (iOS)
+-
+-    def configure(self):
+-        # Only build the shared gst plugin in this recipe.
+-        # We do need the static libnice.a library, though,
+-        # so we don't use --disable-static
+-        shell.replace(os.path.join(self.build_dir, 'gst', 'Makefile.am'),
+-                      {'-module': '-shared -module'})
+-        super(Recipe, self).configure()
+diff --git a/recipes/openh264.recipe b/recipes/openh264.recipe
+index 7f9b589..fc511ac 100644
+--- a/recipes/openh264.recipe
++++ b/recipes/openh264.recipe
+@@ -60,6 +60,9 @@ class Recipe(recipe.Recipe):
+                 make += ' ARCH=x86'
+             elif self.config.target_arch == Architecture.X86_64:
+                 make += ' ARCH=x86_64'
++        elif self.config.target_platform == Platform.LINUX:
++            if self.config.target_arch == Architecture.ARMv7:
++                make += ' ARCH=armv7'
+         self.make = make + ' libraries'
+         # `make install` also needs the exact same parameters as `make`
+         self.make_install = make + ' install'
